@@ -7,11 +7,14 @@ import { blueTheme, darkBlueTheme } from "@/theme/blueTheme";
 
 //context
 import { useDarkMode } from "@/context/DarkMode";
+import { AlertProvider } from "@/context/Alert.context";
 
 //interfaces
 import { IChildrenProps } from "@/interfaces/children.interfaces";
 
-import { AlertProvider } from "@/context/Alert.context";
+//components
+import AuthLayout from "./auth/AuthLayout";
+import DashboardLayout from "./dashboard/DashboardLayout";
 
 const Layout = ({ children }: IChildrenProps) => {
   const router = useRouter();
@@ -19,10 +22,24 @@ const Layout = ({ children }: IChildrenProps) => {
 
   const theme = darkMode ? darkBlueTheme : blueTheme;
 
+  if (router?.pathname === "/404") {
+    return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  }
+
+  if (router?.pathname.includes("dashboard")) {
+    return (
+      <ThemeProvider theme={theme}>
+        <AlertProvider>
+          <DashboardLayout>{children}</DashboardLayout>
+        </AlertProvider>
+      </ThemeProvider>
+    );
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <AlertProvider>
-        <div>{children}</div>
+        <AuthLayout>{children}</AuthLayout>
       </AlertProvider>
     </ThemeProvider>
   );
