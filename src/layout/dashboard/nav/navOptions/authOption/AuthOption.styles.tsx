@@ -10,7 +10,11 @@ const AuthOptionWrapper = styled.div(
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 1rem;
+    gap: 2rem;
+
+    button {
+      width: 100%;
+    }
   `
 );
 
@@ -43,6 +47,23 @@ const PersonWrapper = styled.div<IBackground>(
         background: ${colors.background.main};
       `}
     }
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem;
+      border: 0.1rem solid ${colors.border.grey};
+      border-radius: 0.4rem;
+
+      svg {
+        width: 1.6rem;
+        height: 1.6rem;
+        path {
+          fill: ${colors.neutral[50]};
+        }
+      }
+    }
   `
 );
 
@@ -59,15 +80,15 @@ const PersonInfoWrapper = styled.div(
     padding: 1rem 0;
 
     h2 {
-      font-size: ${typography.base.fontSize};
-      font-weight: ${typography.base.fontWeight.medium};
-      color: ${colors.text.heading};
+      font-size: ${typography.large.fontSize};
+      font-weight: ${typography.large.fontWeight.medium};
+      color: ${colors.neutral[500]};
     }
 
     p {
       font-size: ${typography.small.fontSize};
       font-weight: ${typography.small.fontWeight.medium};
-      color: ${colors.text.heading};
+      color: ${colors.neutral[300]};
     }
   `
 );
@@ -140,24 +161,10 @@ const SignoutButton = styled.button(
   `
 );
 
-const Divider = styled.span(
-  ({
-    theme: {
-      colors,
-      typography,
-      media: { down, breakpoints },
-    },
-  }) => css`
-    width: 100%;
-    border-bottom: 0.1rem dashed ${colors.border.grey};
-  `
-);
-
 export {
   AuthOptionWrapper,
   PersonWrapper,
   PersonInfoWrapper,
   ListWrapper,
-  Divider,
   SignoutButton,
 };

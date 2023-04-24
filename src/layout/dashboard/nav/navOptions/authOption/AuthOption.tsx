@@ -11,6 +11,7 @@ import { useUser } from "@/queries/useUser";
 
 //icons
 import { FaUserAlt } from "react-icons/fa";
+import Button from "@/components/button/Button";
 
 const AuthOption = () => {
   const { user } = useUser();
@@ -34,21 +35,23 @@ const AuthOption = () => {
   return (
     <Styled.AuthOptionWrapper>
       <Styled.PersonWrapper background={!user?.avatar}>
-        {user?.avatar ? <img src={user?.avatar?.url} /> : <FaUserAlt />}
+        {user?.avatar ? (
+          <img src={user?.avatar?.url} />
+        ) : (
+          <span>
+            <FaUserAlt />
+          </span>
+        )}
 
         <Styled.PersonInfoWrapper>
           <h2>{user?.name + " " + user?.lastName}</h2>
           <p>{user?.email}</p>
         </Styled.PersonInfoWrapper>
       </Styled.PersonWrapper>
-      <Styled.Divider />
-      <Styled.ListWrapper>
-        <li>
-          <Link href={"/dashboard/account"}>profil</Link>
-        </li>
-      </Styled.ListWrapper>
-      <Styled.Divider />
-      <Styled.SignoutButton onClick={logout}>wyloguj się</Styled.SignoutButton>
+
+      <Button onClick={logout} size="small">
+        wyloguj się
+      </Button>
     </Styled.AuthOptionWrapper>
   );
 };
