@@ -66,9 +66,9 @@ export const blueTheme = {
       },
       step: {
         requiredInfo: {
-          text: blueColors.warning[500],
-          background: blueColors.warning[50],
-          border: blueColors.warning[100],
+          text: blueColors.primary[400],
+          background: blueColors.primary[50],
+          border: blueColors.primary[50],
         },
         heading: blueColors.neutral[900],
         description: blueColors.neutral[200],

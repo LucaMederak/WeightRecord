@@ -6,7 +6,7 @@ import { DashboardView } from "../DashboardLayout";
 import axiosInstance from "@/utils/axiosInstance";
 
 //icons
-import { FaBars, FaHome, FaWeight } from "react-icons/fa";
+import { FaBars, FaHome, FaUsers, FaWeight } from "react-icons/fa";
 
 //components
 import Image from "next/image";
@@ -33,6 +33,12 @@ const links = [
   },
   {
     id: 2,
+    name: "Klienci",
+    href: "clients",
+    icon: <FaUsers />,
+  },
+  {
+    id: 3,
     name: "Pomiary",
     href: "measurements",
     icon: <FaWeight />,
