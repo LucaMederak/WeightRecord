@@ -25,7 +25,7 @@ export const aimsOptions = [
 const Aims = () => {
   return (
     <>
-      <StepWrapper requiredFields title="Cele">
+      <StepWrapper title="Cele">
         <Input
           type="text"
           name="expectedBodyWeight"
@@ -34,7 +34,7 @@ const Aims = () => {
         />
         <MultipleAutocomplete
           name="specificAims"
-          label={`Cele szczegółowe *`}
+          label={`Cele szczegółowe`}
           options={aimsOptions}
           optionLabel="name"
           optionRender="type"

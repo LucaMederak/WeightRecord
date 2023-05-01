@@ -1,24 +1,24 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import format from "date-fns/format";
 import { pl } from "date-fns/locale";
 
 //styles
-import * as Styled from "./Calendar.styles";
+import * as Styled from "./DatePicker.styles";
 
-import { ICalendarProps } from "./Calendar.interfaces";
-import { useController, useForm, useFormContext } from "react-hook-form";
+import { IDatePickerProps } from "./DatePicker.interfaces";
+import { useController } from "react-hook-form";
 
 //components
-import CalendarPopup from "./calendarPopup/CalendarPopup";
+import DatePickerPopup from "./datePickerPopup/DatePickerPopup";
 import { FaCalendarPlus } from "react-icons/fa";
 
-const Calendar = ({
+const DatePicker = ({
   name,
   label,
   fullWidth = false,
   validDate,
-}: ICalendarProps) => {
-  const [calendarPopup, setCalendarPopup] = useState(false);
+}: IDatePickerProps) => {
+  const [datePickerPopup, setDatePickerPopup] = useState(false);
 
   const {
     field,
@@ -39,31 +39,31 @@ const Calendar = ({
   };
 
   return (
-    <Styled.CalendarContainer fullWidth={fullWidth}>
-      <Styled.CalendarContentWrapper>
+    <Styled.DatePickerContainer fullWidth={fullWidth}>
+      <Styled.DatePickerContentWrapper>
         <label htmlFor={name}>{label}</label>
-        <Styled.CalendarInputWrapper>
+        <Styled.DatePickerInputWrapper>
           <input
             {...inputProps}
             value={field.value ? dateFormat(field.value) : ""}
           />
-          <button onClick={() => setCalendarPopup(true)} type="button">
+          <button onClick={() => setDatePickerPopup(true)} type="button">
             <FaCalendarPlus />
           </button>
-        </Styled.CalendarInputWrapper>
+        </Styled.DatePickerInputWrapper>
 
         {isTouched && error && <p>{error.message}</p>}
-      </Styled.CalendarContentWrapper>
+      </Styled.DatePickerContentWrapper>
 
-      <CalendarPopup
-        open={calendarPopup}
-        close={() => setCalendarPopup(false)}
+      <DatePickerPopup
+        open={datePickerPopup}
+        close={() => setDatePickerPopup(false)}
         fullWidth={fullWidth}
         name={name}
         validDate={validDate}
       />
-    </Styled.CalendarContainer>
+    </Styled.DatePickerContainer>
   );
 };
 
-export default Calendar;
+export default DatePicker;

@@ -1,4 +1,4 @@
-export interface ICalendarProps {
+export interface IDatePickerProps {
   name: string;
   label: string;
   fullWidth?: boolean;

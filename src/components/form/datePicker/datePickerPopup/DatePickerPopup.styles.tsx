@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
 
-import { ICalendarProps } from "../Calendar.interfaces";
+import { IDatePickerProps } from "../DatePicker.interfaces";
 
-const CalendarWrapper = styled.div<Pick<ICalendarProps, "fullWidth">>(
+const DatePickerWrapper = styled.div<Pick<IDatePickerProps, "fullWidth">>(
   ({ theme: { colors, shadows, typography }, fullWidth }) => css`
     display: flex;
     flex-direction: column;
@@ -15,15 +15,15 @@ const CalendarWrapper = styled.div<Pick<ICalendarProps, "fullWidth">>(
     top: 110%;
     left: 0;
     z-index: 1;
-
+    border: 0.1rem solid ${colors.border.grey};
     ${fullWidth &&
     css`
       width: 100%;
-    `}
+    `};
   `
 );
 
-const CalendarOptions = styled.div(
+const DatePickerOptions = styled.div(
   ({ theme: { colors, typography } }) => css`
     display: flex;
     align-items: center;
@@ -72,7 +72,7 @@ const ChevronWrapper = styled.div(
   `
 );
 
-const GridCalendarInfo = styled.ul(
+const GridDatePickerInfo = styled.ul(
   ({ theme: { colors, typography } }) => css`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -92,7 +92,7 @@ const GridCalendarInfo = styled.ul(
   `
 );
 
-const GridCalendar = styled.div(
+const GridDatePicker = styled.div(
   () => css`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -107,7 +107,7 @@ interface ICurrentDay {
   disabledDay?: any;
 }
 
-const CalendarDay = styled.div<ICurrentDay>(
+const DatePickerDay = styled.div<ICurrentDay>(
   ({
     theme: { colors, typography },
     currentDay,
@@ -162,10 +162,10 @@ const CalendarDay = styled.div<ICurrentDay>(
 );
 
 export {
-  CalendarWrapper,
-  CalendarOptions,
+  DatePickerWrapper,
+  DatePickerOptions,
   ChevronWrapper,
-  GridCalendarInfo,
-  GridCalendar,
-  CalendarDay,
+  GridDatePickerInfo,
+  GridDatePicker,
+  DatePickerDay,
 };

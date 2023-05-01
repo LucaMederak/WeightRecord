@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Input from "@/components/form/input/Input";
 import StepWrapper from "@/components/form/step/StepWrapper";
 import Autocomplete from "@/components/form/autocomplete/Autocomplete";
-import Calendar from "@/components/form/calendar/Calendar";
+import DatePicker from "@/components/form/datePicker/DatePicker";
 import { useFormContext } from "react-hook-form";
 
 const genderOptions = [
@@ -78,8 +78,8 @@ const BasicInfo = () => {
       <StepWrapper requiredFields title="Podstawowe informacje">
         <Input label={`Imię *`} type="text" name="firstName" />
         <Input label={`Nazwisko *`} type="text" name="surname" />
-        <Input label={`E-mail *`} type="email" name="email" />
-        {/* <Calendar label={`Data urodzenia *`} name="dateOfBirth" fullWidth /> */}
+        <Input label={`E-mail`} type="email" name="email" />
+        <DatePicker label={`Data urodzenia *`} name="dateOfBirth" fullWidth />
         <Autocomplete
           name="gender"
           fullWidth
@@ -91,7 +91,7 @@ const BasicInfo = () => {
         <Autocomplete
           name="pal"
           fullWidth
-          label={`pal *`}
+          label={`Współczynnik aktywności fizycznej (PAL) *`}
           options={palOptions}
           optionLabel={"value"}
           optionRender={"value"}

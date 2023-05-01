@@ -25,9 +25,10 @@ import * as Step from "../steps";
 
 const allClientSchemas = clientInfoSchema
   .concat(clientDiseasesSchema)
-  .concat(clientInfoSchema);
+  .concat(clientAimsSchema);
 
 const defaultClientsValues = allClientSchemas.cast({});
+
 type IClientValues = typeof defaultClientsValues;
 
 const NewClientForm = () => {

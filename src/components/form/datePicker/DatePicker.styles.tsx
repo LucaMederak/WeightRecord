@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
-import { ICalendarProps } from "./Calendar.interfaces";
+import { IDatePickerProps } from "./DatePicker.interfaces";
 
-const CalendarContainer = styled.div<Pick<ICalendarProps, "fullWidth">>(
+const DatePickerContainer = styled.div<Pick<IDatePickerProps, "fullWidth">>(
   ({ fullWidth }) => css`
     display: flex;
     flex-direction: column;
@@ -15,7 +15,7 @@ const CalendarContainer = styled.div<Pick<ICalendarProps, "fullWidth">>(
   `
 );
 
-const CalendarContentWrapper = styled.div(
+const DatePickerContentWrapper = styled.div(
   ({ theme: { colors, typography } }) => css`
     display: flex;
     flex-direction: column;
@@ -40,11 +40,9 @@ const CalendarContentWrapper = styled.div(
   `
 );
 
-const CalendarInputWrapper = styled.div(
+const DatePickerInputWrapper = styled.div(
   ({ theme: { colors, typography } }) => css`
     display: flex;
-    /* align-items: flex-start;
-    justify-content: flex-start; */
     transition: 0.3s ease-out;
     width: 100%;
 
@@ -60,6 +58,7 @@ const CalendarInputWrapper = styled.div(
       transition: 0.1s ease-out;
       min-height: 4.4rem;
       pointer-events: none;
+      width: 100%;
     }
 
     input:focus {
@@ -87,4 +86,8 @@ const CalendarInputWrapper = styled.div(
   `
 );
 
-export { CalendarContainer, CalendarContentWrapper, CalendarInputWrapper };
+export {
+  DatePickerContainer,
+  DatePickerContentWrapper,
+  DatePickerInputWrapper,
+};

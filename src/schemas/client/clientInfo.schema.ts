@@ -7,7 +7,7 @@ export const clientInfoSchema = yup.object().shape({
     .string()
     .email("Wprowadzono nieprawidłowy adres e-mail")
     .default(""),
-  dateOfBirth: yup.date().required("To pole jest wymagane").default(new Date()),
+  dateOfBirth: yup.string().required("To pole jest wymagane").default(""),
   gender: yup
     .string()
     .oneOf(["male", "female"], "To pole jest wymagane")

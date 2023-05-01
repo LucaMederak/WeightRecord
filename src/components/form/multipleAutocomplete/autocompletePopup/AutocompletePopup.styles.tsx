@@ -18,7 +18,7 @@ const AutocompletePopupWrapper = styled.div<
     left: 0;
     max-height: 18rem;
     overflow-y: auto;
-    z-index: 1;
+    z-index: 2;
 
     ${fullWidth &&
     css`

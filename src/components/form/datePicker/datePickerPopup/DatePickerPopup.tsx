@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import * as Styled from "./CalendarPopup.styles";
+import * as Styled from "./DatePickerPopup.styles";
 
 import { useFormContext } from "react-hook-form";
 
@@ -24,7 +24,7 @@ import {
   isAfter,
 } from "date-fns";
 
-interface ICalendarPopupProps {
+interface IDatePickerPopupProps {
   open: boolean;
   close: () => void;
   fullWidth: boolean;
@@ -32,13 +32,13 @@ interface ICalendarPopupProps {
   validDate?: (day: Date) => void;
 }
 
-const CalendarPopup = ({
+const DatePickerPopup = ({
   open,
   close,
   fullWidth,
   name,
   validDate,
-}: ICalendarPopupProps) => {
+}: IDatePickerPopupProps) => {
   const {
     control,
     formState: { errors },
@@ -47,11 +47,11 @@ const CalendarPopup = ({
     getValues,
   } = useFormContext();
 
-  const calendarRef = useRef<HTMLDivElement>(null);
+  const datePickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (!calendarRef.current?.contains(e.target as Node)) {
+      if (!datePickerRef.current?.contains(e.target as Node)) {
         close();
       }
     };
@@ -77,7 +77,7 @@ const CalendarPopup = ({
   const endMonth = endOfMonth(date);
   const endWeek = endOfWeek(endMonth, { weekStartsOn: 1 });
 
-  const [calendarValues, setCalendarValues] = useState({
+  const [datePickerValues, setDatePickerValues] = useState({
     startDay: new Date(),
     endDay: new Date(),
     month: startDate,
@@ -113,8 +113,8 @@ const CalendarPopup = ({
       end: endWeek,
     });
 
-    setCalendarValues({
-      ...calendarValues,
+    setDatePickerValues({
+      ...datePickerValues,
       startDay: startWeek,
       endDay: endWeek,
       month: date,
@@ -144,12 +144,12 @@ const CalendarPopup = ({
   if (!open) return null;
 
   return (
-    <Styled.CalendarWrapper ref={calendarRef} fullWidth={fullWidth}>
-      <Styled.CalendarOptions>
-        {calendarValues.month && calendarValues.year ? (
+    <Styled.DatePickerWrapper ref={datePickerRef} fullWidth={fullWidth}>
+      <Styled.DatePickerOptions>
+        {datePickerValues.month && datePickerValues.year ? (
           <h2>
-            {format(calendarValues.month, "LLLL", { locale: pl })}{" "}
-            {format(calendarValues.year, "yyyy", { locale: pl })}
+            {format(datePickerValues.month, "LLLL", { locale: pl })}{" "}
+            {format(datePickerValues.year, "yyyy", { locale: pl })}
           </h2>
         ) : (
           <h2>-</h2>
@@ -164,8 +164,8 @@ const CalendarPopup = ({
             <FaChevronRight />
           </button>
         </Styled.ChevronWrapper>
-      </Styled.CalendarOptions>
-      <Styled.GridCalendarInfo>
+      </Styled.DatePickerOptions>
+      <Styled.GridDatePickerInfo>
         <li>pon</li>
         <li>wt</li>
         <li>śr</li>
@@ -173,23 +173,23 @@ const CalendarPopup = ({
         <li>pt</li>
         <li>sob</li>
         <li>niedz</li>
-      </Styled.GridCalendarInfo>
-      <Styled.GridCalendar>
-        {calendarValues.daysArray.map((day, index) => (
-          <Styled.CalendarDay
+      </Styled.GridDatePickerInfo>
+      <Styled.GridDatePicker>
+        {datePickerValues.daysArray.map((day, index) => (
+          <Styled.DatePickerDay
             key={index}
             currentDay={isSameDay(day, new Date())}
-            currentMonth={!isSameMonth(day, calendarValues.month)}
+            currentMonth={!isSameMonth(day, datePickerValues.month)}
             selectedDay={isSameDay(day, selectedDay)}
             onClick={() => handleChangeDay(day)}
             disabledDay={dateValid(day)}
           >
             {format(day, "dd")}
-          </Styled.CalendarDay>
+          </Styled.DatePickerDay>
         ))}
-      </Styled.GridCalendar>
-    </Styled.CalendarWrapper>
+      </Styled.GridDatePicker>
+    </Styled.DatePickerWrapper>
   );
 };
 
-export default CalendarPopup;
+export default DatePickerPopup;
