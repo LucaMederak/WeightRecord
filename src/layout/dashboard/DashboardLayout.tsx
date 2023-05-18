@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { AnimatePresence } from "framer-motion";
+import { useAlert } from "@/context/Alert.context";
 
 //interfaces
 import { IChildrenProps } from "@/interfaces/children.interfaces";
@@ -11,6 +13,7 @@ import * as Styled from "./DashboardLayout.styles";
 import Sidebar from "./sidebar/Sidebar";
 import Nav from "./nav/Nav";
 import PageLoading from "@/components/pageLoading/PageLoading";
+import Alert from "@/components/alert/Alert";
 
 //queries
 import { useUser } from "@/queries/useUser";
@@ -18,6 +21,7 @@ import { useUser } from "@/queries/useUser";
 export type DashboardView = "default" | "rolledUp";
 
 const DashboardLayout = ({ children }: IChildrenProps) => {
+  const { alert, handleAlert } = useAlert();
   const router = useRouter();
   const { user, userLoading, loggedOut } = useUser();
   const [view, setView] = useState<DashboardView>("default");
@@ -45,6 +49,9 @@ const DashboardLayout = ({ children }: IChildrenProps) => {
         <Nav />
         <Styled.DashboardContentWrapper>
           {children}
+          <AnimatePresence>
+            {alert.display && <Alert type={alert.type} title={alert.message} />}
+          </AnimatePresence>
         </Styled.DashboardContentWrapper>
       </Styled.DashboardContentContainer>
     </Styled.DashboardContainer>

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import axiosInstance from "@/utils/axiosInstance";
+import { useRouter } from "next/router";
 
 //form
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
@@ -32,6 +33,7 @@ const defaultClientsValues = allClientSchemas.cast({});
 type IClientValues = typeof defaultClientsValues;
 
 const NewClientForm = () => {
+  const router = useRouter();
   const methods = useForm({
     resolver: yupResolver(allClientSchemas),
     shouldUnregister: false,
@@ -54,9 +56,11 @@ const NewClientForm = () => {
 
       reset();
       handleAlert("success", "Dodano nowego klienta");
+      router.push("/dashboard/clients");
     } catch (e) {
       console.log(e);
       handleAlert("error", "Dodawanie nowego klienta nie powiodło się");
+      router.push("/dashboard/clients");
     }
   };
 
