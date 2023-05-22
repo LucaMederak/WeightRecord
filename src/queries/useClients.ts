@@ -11,3 +11,16 @@ export const useClients = () => {
     clientsError: error,
   };
 };
+
+export const useClient = (clientId: string) => {
+  const { data, error } = useSWR<IClientData>(
+    `/api/clients/${clientId}`,
+    fetcher
+  );
+
+  return {
+    client: data,
+    clientLoading: !error && !data,
+    clientError: error,
+  };
+};

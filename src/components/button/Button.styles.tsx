@@ -63,6 +63,15 @@ const Button = styled.button<Pick<IButtonProps, "size" | "variant">>(
         background: ${colors.button.secondary.hover.background};
       }
     `}
+    ${variant === "danger" &&
+    css`
+      background: ${colors.button.danger.default.background};
+      color: ${colors.button.danger.default.text};
+      :hover {
+        color: ${colors.button.danger.hover.text};
+        background: ${colors.button.danger.hover.background};
+      }
+    `}
     ${variant === "disabled" &&
     css`
       background: ${colors.button.disabled.background};

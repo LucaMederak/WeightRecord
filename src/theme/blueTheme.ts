@@ -121,6 +121,23 @@ export const blueTheme = {
           background: blueColors.primary[400],
         },
       },
+      danger: {
+        default: {
+          text: blueColors.neutral[0],
+          icon: blueColors.neutral[0],
+          background: blueColors.danger[500],
+        },
+        hover: {
+          text: blueColors.neutral[0],
+          icon: blueColors.neutral[0],
+          background: blueColors.danger[600],
+        },
+        active: {
+          text: blueColors.neutral[0],
+          icon: blueColors.neutral[0],
+          background: blueColors.danger[400],
+        },
+      },
       disabled: {
         text: blueColors.neutral[0],
         icon: blueColors.neutral[0],
