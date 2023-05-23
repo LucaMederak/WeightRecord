@@ -37,7 +37,7 @@ const ClientPage = () => {
         <Button
           size="small"
           variant="primary"
-          onClick={() => router.push(`/dashboard/clients/edit/${client?._id}`)}
+          onClick={() => router.push(`/dashboard/clients/${client?._id}/edit`)}
         >
           edytuj
         </Button>
