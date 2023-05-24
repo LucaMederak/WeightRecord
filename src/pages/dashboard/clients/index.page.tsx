@@ -35,7 +35,7 @@ const ClientsPage = () => {
       </Styled.HeadingWrapper>
 
       {clients!.length > 0 && (
-        <Styled.AvailableTermsWrapper>
+        <Styled.ClientsWrapper>
           <Styled.TableWrapper>
             <Styled.TableHeadWrapper>
               <tr>
@@ -61,7 +61,7 @@ const ClientsPage = () => {
               ))}
             </Styled.TableBodyWrapper>
           </Styled.TableWrapper>
-        </Styled.AvailableTermsWrapper>
+        </Styled.ClientsWrapper>
       )}
     </>
   );

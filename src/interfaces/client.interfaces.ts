@@ -15,6 +15,8 @@ type IAlergen = "peanuts" | "rye" | "eggProtein";
 
 export interface IClientData {
   _id: string;
+  createdAt: Date;
+  updatedAt: Date;
   user: IUserData["_id"];
   firstName: string;
   surname: string;

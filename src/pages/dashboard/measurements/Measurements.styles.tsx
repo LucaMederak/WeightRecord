@@ -45,7 +45,7 @@ const HeadingWrapper = styled.div(
   `
 );
 
-const ClientsWrapper = styled.div(
+const MeasurementsWrapper = styled.div(
   ({
     theme: {
       colors,
@@ -155,7 +155,7 @@ const TableBodyWrapper = styled.tbody(
 
 export {
   HeadingWrapper,
-  ClientsWrapper,
+  MeasurementsWrapper,
   TableWrapper,
   TableHeadWrapper,
   TableBodyWrapper,

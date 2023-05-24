@@ -36,13 +36,12 @@ const defaultClientsValues = allClientSchemas.cast({});
 type IClientValues = typeof defaultClientsValues;
 
 const EditClientForm = () => {
+  const { handleAlert } = useAlert();
+
   const router = useRouter();
   const { clientId } = router.query;
 
   const { client, clientLoading, clientError } = useClient(clientId as string);
-
-  if (clientLoading) return <LoadingGrid />;
-  if (clientError) return <DataError />;
 
   const methods = useForm({
     resolver: yupResolver(allClientSchemas),
@@ -50,13 +49,11 @@ const EditClientForm = () => {
     defaultValues: client,
     mode: "onBlur",
   });
-
   const {
     handleSubmit,
     formState: { isSubmitting, isValid },
     reset,
   } = methods;
-  const { handleAlert } = useAlert();
 
   const onSubmit: SubmitHandler<IClientValues> = async (data) => {
     try {
@@ -77,6 +74,9 @@ const EditClientForm = () => {
       router.push("/dashboard/clients");
     }
   };
+
+  if (clientLoading) return <LoadingGrid />;
+  if (clientError) return <DataError />;
 
   return (
     <FormProvider {...methods}>
