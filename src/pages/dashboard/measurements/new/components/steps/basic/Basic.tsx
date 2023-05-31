@@ -11,6 +11,11 @@ import differenceInYears from "date-fns/differenceInYears";
 //queries
 import { useClient } from "@/queries/useClients";
 
+//helpers
+import { ppmHelper } from "@/helpers/ppm";
+import { cpmHelper } from "@/helpers/cpm";
+import { bmiHelper } from "@/helpers/bmi";
+
 const BasicData = () => {
   const {
     control,
@@ -28,26 +33,26 @@ const BasicData = () => {
 
   const age =
     client && differenceInYears(new Date(), new Date(client.dateOfBirth));
-  const sex = client?.gender;
+  const gender = client?.gender;
   const pal = client?.pal;
 
-  // useEffect(() => {
-  //   if (sex && age && weight && height && pal) {
-  //     const ppm = ppmHelper(sex, weight, height, age);
-  //     const cpm = cpmHelper(ppm.ppm_harris, pal);
-  //     const bmi = bmiHelper(weight, height);
+  useEffect(() => {
+    if (gender && age && weight && height && pal) {
+      const ppm = ppmHelper(gender, weight, height, age);
+      const cpm = cpmHelper(ppm.ppm_harris, pal);
+      const bmi = bmiHelper(weight, height);
 
-  //     setValue("ppmHarris", ppm.ppm_harris);
-  //     setValue("ppmMifflin", ppm.ppm_mifflin);
-  //     setValue("cpm", cpm);
-  //     return setValue("bmi", bmi);
-  //   }
+      setValue("ppmHarris", ppm.ppm_harris);
+      setValue("ppmMifflin", ppm.ppm_mifflin);
+      setValue("cpm", cpm);
+      return setValue("bmi", bmi);
+    }
 
-  //   setValue("ppmHarris", 0);
-  //   setValue("ppmMifflin", 0);
-  //   setValue("cpm", 0);
-  //   return setValue("bmi", 0);
-  // }, [sex, age, weight, height, pal]);
+    setValue("ppmHarris", 0);
+    setValue("ppmMifflin", 0);
+    setValue("cpm", 0);
+    return setValue("bmi", 0);
+  }, [gender, age, weight, height, pal]);
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = !e.currentTarget.value
