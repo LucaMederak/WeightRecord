@@ -5,6 +5,8 @@ import Autocomplete from "@/components/form/autocomplete/Autocomplete";
 import DatePicker from "@/components/form/datePicker/DatePicker";
 import { useFormContext } from "react-hook-form";
 
+import { isAfter } from "date-fns";
+
 const genderOptions = [
   { id: 1, name: "mężczyzna", type: "male" },
   { id: 2, name: "kobieta", type: "female" },
@@ -73,13 +75,26 @@ const BasicInfo = () => {
     trigger,
   } = useFormContext();
 
+  const dateOfBirthValid = (day: Date) => {
+    if (isAfter(day, new Date())) {
+      return true;
+    }
+
+    return false;
+  };
+
   return (
     <>
       <StepWrapper requiredFields title="Podstawowe informacje">
         <Input label={`Imię *`} type="text" name="firstName" />
         <Input label={`Nazwisko *`} type="text" name="surname" />
         <Input label={`E-mail`} type="email" name="email" />
-        <DatePicker label={`Data urodzenia *`} name="dateOfBirth" fullWidth />
+        <DatePicker
+          label={`Data urodzenia *`}
+          name="dateOfBirth"
+          fullWidth
+          validDate={dateOfBirthValid}
+        />
         <Autocomplete
           name="gender"
           fullWidth

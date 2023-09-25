@@ -35,7 +35,7 @@ const DatePickerOptions = styled.div(
       font-size: ${typography.base.fontSize};
       font-weight: ${typography.base.fontWeight.medium};
       color: ${colors.text.heading};
-      flex-grow: 1;
+      /* flex-grow: 1; */
     }
   `
 );
@@ -69,6 +69,95 @@ const ChevronWrapper = styled.div(
         height: 60%;
       }
     }
+  `
+);
+
+const DatePickerYearsWrapper = styled.div(
+  ({ theme: { colors, typography } }) => css`
+    width: 100%;
+    background: ${colors.neutral[0]};
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+  `
+);
+
+const DatePickerYearItem = styled.div(
+  ({ theme: { colors, typography } }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border: 0.1rem solid ${colors.primary[50]};
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: 0.3s ease-out;
+
+    :hover {
+      background: ${colors.neutral[20]};
+      p {
+        color: ${colors.primary[500]};
+      }
+    }
+
+    p {
+      transition: 0.3s ease-out;
+      font-size: ${typography.base.fontSize};
+      color: ${colors.text.heading};
+      font-weight: ${typography.base.fontWeight.medium};
+    }
+  `
+);
+
+interface IActiveOption {
+  active: boolean;
+}
+
+const DatePickerYearOption = styled.div<IActiveOption>(
+  ({ theme: { colors, typography }, active }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: ${colors.text.heading};
+      transition: 0.3s ease-out;
+
+      :hover {
+        background: ${colors.neutral[20]};
+      }
+
+      svg {
+        transition: 0.3s ease-out;
+        width: 60%;
+        height: 60%;
+      }
+    }
+
+    ${active &&
+    css`
+      button {
+        svg {
+          transform: rotate(180deg);
+        }
+      }
+    `}
   `
 );
 
@@ -165,7 +254,10 @@ export {
   DatePickerWrapper,
   DatePickerOptions,
   ChevronWrapper,
+  DatePickerYearsWrapper,
+  DatePickerYearItem,
   GridDatePickerInfo,
   GridDatePicker,
   DatePickerDay,
+  DatePickerYearOption,
 };
