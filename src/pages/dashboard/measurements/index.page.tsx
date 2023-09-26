@@ -13,14 +13,16 @@ import { FaPlus } from "react-icons/fa";
 
 //components
 import ButtonLink from "@/components/buttonLink/ButtonLink";
+import LoadingGrid from "@/components/dataLoading/LoadingGrid";
+import DataError from "@/components/dataError/DataError";
 
 const MeasurementsPage = () => {
   const router = useRouter();
   const { measurements, measurementsLoading, measurementsError } =
     useMeasurements();
 
-  if (measurementsLoading) return <div>loading...</div>;
-  if (measurementsError) return <div>error...</div>;
+  if (measurementsLoading) return <LoadingGrid />;
+  if (measurementsError) return <DataError />;
 
   return (
     <>

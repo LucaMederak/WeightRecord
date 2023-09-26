@@ -31,7 +31,7 @@ const Info = () => {
   return (
     <StepWrapper title="Informacje o pomiarze">
       <Input label={`Nazwa pomiaru *`} type="text" name="name" fullWidth />
-      <DatePicker name="date" label="Data *" />
+      <DatePicker name="date" label="Data *" fullWidth />
       <Autocomplete
         name="client"
         fullWidth

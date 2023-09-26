@@ -13,13 +13,15 @@ import { FaPlus } from "react-icons/fa";
 
 //components
 import ButtonLink from "@/components/buttonLink/ButtonLink";
+import LoadingGrid from "@/components/dataLoading/LoadingGrid";
+import DataError from "@/components/dataError/DataError";
 
 const ClientsPage = () => {
   const router = useRouter();
   const { clients, clientsLoading, clientsError } = useClients();
 
-  if (clientsLoading) return <div>loading...</div>;
-  if (clientsError) return <div>error...</div>;
+  if (clientsLoading) return <LoadingGrid />;
+  if (clientsError) return <DataError />;
 
   return (
     <>
