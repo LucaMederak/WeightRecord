@@ -6,7 +6,7 @@ export interface IMeasurementData {
   createdAt: Date;
   updatedAt: Date;
   user: IUserData["_id"];
-  client: IClientData["_id"];
+  client: IClientData;
   name: string;
   date: Date;
   notes?: string;
