@@ -55,6 +55,14 @@ const EditClientForm = () => {
     reset,
   } = methods;
 
+  useEffect(() => {
+    if (client) {
+      for (const [key, value] of Object.entries(client)) {
+        methods.setValue(key as any, value);
+      }
+    }
+  }, [client]);
+
   const onSubmit: SubmitHandler<IClientValues> = async (data) => {
     try {
       const editClient = await axiosInstance.put(
