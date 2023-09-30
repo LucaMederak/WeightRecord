@@ -15,6 +15,7 @@ import { FaPlus } from "react-icons/fa";
 import ButtonLink from "@/components/buttonLink/ButtonLink";
 import LoadingGrid from "@/components/dataLoading/LoadingGrid";
 import DataError from "@/components/dataError/DataError";
+import DataNotFound from "@/components/dataNotFound/DataNotFound";
 
 const ClientsPage = () => {
   const router = useRouter();
@@ -35,6 +36,8 @@ const ClientsPage = () => {
           link={`/dashboard/clients/new`}
         />
       </Styled.HeadingWrapper>
+
+      {clients!.length < 1 && <DataNotFound />}
 
       {clients!.length > 0 && (
         <Styled.ClientsWrapper>

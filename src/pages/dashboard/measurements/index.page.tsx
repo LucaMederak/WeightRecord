@@ -15,6 +15,7 @@ import { FaPlus } from "react-icons/fa";
 import ButtonLink from "@/components/buttonLink/ButtonLink";
 import LoadingGrid from "@/components/dataLoading/LoadingGrid";
 import DataError from "@/components/dataError/DataError";
+import DataNotFound from "@/components/dataNotFound/DataNotFound";
 
 const MeasurementsPage = () => {
   const router = useRouter();
@@ -37,6 +38,8 @@ const MeasurementsPage = () => {
         />
       </Styled.HeadingWrapper>
 
+      {measurements!.length < 1 && <DataNotFound />}
+
       {measurements!.length > 0 && (
         <Styled.MeasurementsWrapper>
           <Styled.TableWrapper>
@@ -44,6 +47,10 @@ const MeasurementsPage = () => {
               <tr>
                 <th>nazwa</th>
                 <th>data</th>
+                <th>kient</th>
+                <th>masa ciała (kg)</th>
+                <th>wysokość ciała (cm)</th>
+                <th>bmi</th>
               </tr>
             </Styled.TableHeadWrapper>
             <Styled.TableBodyWrapper>
@@ -56,6 +63,15 @@ const MeasurementsPage = () => {
                 >
                   <td>{measurement.name}</td>
                   <td> {format(new Date(measurement.date), "dd.MM.yyyy")}</td>
+                  <td>
+                    {" "}
+                    {measurement.client.firstName +
+                      " " +
+                      measurement.client.surname}
+                  </td>
+                  <td>{measurement.weight}</td>
+                  <td>{measurement.height}</td>
+                  <td>{measurement.bmi}</td>
                 </tr>
               ))}
             </Styled.TableBodyWrapper>
