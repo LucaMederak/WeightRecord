@@ -9,6 +9,8 @@ import StepWrapper from "@/components/form/step/StepWrapper";
 
 //quries
 import { useClients } from "@/queries/useClients";
+import LoadingGrid from "@/components/dataLoading/LoadingGrid";
+import DataError from "@/components/dataError/DataError";
 
 const Info = () => {
   const { clients, clientsError, clientsLoading } = useClients();
@@ -20,8 +22,8 @@ const Info = () => {
     getValues,
   } = useFormContext();
 
-  if (clientsLoading) return <div>clients loading</div>;
-  if (clientsError) return <div>clients error</div>;
+  if (clientsLoading) return <LoadingGrid />;
+  if (clientsError) return <DataError />;
 
   const clientsData = clients?.map((client) => ({
     _id: client._id,
