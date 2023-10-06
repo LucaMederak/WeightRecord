@@ -85,6 +85,8 @@ const DatePickerYearsWrapper = styled.div(
     grid-template-columns: repeat(6, 1fr);
     gap: 1rem;
     padding: 1rem;
+    background: ${colors.neutral[0]};
+    z-index: 1;
   `
 );
 
