@@ -62,15 +62,19 @@ const MultipleAutocomplete = ({
     if (typeof options[0][renderValue] === "number") {
       const numberValue = parseFloat(parseFloat(value).toFixed(2));
       if (Array.isArray(fieldValues)) {
-        return setValue(name, [...fieldValues, numberValue]);
+        return setValue(name, [...fieldValues, numberValue], {
+          shouldDirty: true,
+        });
       }
-      setValue(name, [numberValue]);
+      setValue(name, [numberValue], { shouldDirty: true });
     } else {
       if (Array.isArray(fieldValues)) {
-        return setValue(name, value !== null && [...fieldValues, value]);
+        return setValue(name, value !== null && [...fieldValues, value], {
+          shouldDirty: true,
+        });
       }
 
-      setValue(name, value !== null && [value]);
+      setValue(name, value !== null && [value], { shouldDirty: true });
     }
 
     setAutocompletePopup(false);
@@ -81,7 +85,8 @@ const MultipleAutocomplete = ({
     const selectedValues = fieldValues.filter(
       (fieldValue) => fieldValue !== itemRender
     );
-    setValue(name, selectedValues);
+    setValue(name, selectedValues, { shouldDirty: true });
+    trigger();
   };
 
   const getOptionLabel = (fieldValue: string) => {

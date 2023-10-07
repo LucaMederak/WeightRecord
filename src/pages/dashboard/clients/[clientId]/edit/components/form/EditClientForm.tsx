@@ -23,9 +23,7 @@ import ReactLoading from "react-loading";
 
 //steps
 import * as Step from "../steps";
-import { useClient } from "@/queries/useClients";
-import LoadingGrid from "@/components/dataLoading/LoadingGrid";
-import DataError from "@/components/dataError/DataError";
+import { IClientData } from "@/interfaces/client.interfaces";
 
 const allClientSchemas = clientInfoSchema
   .concat(clientDiseasesSchema)
@@ -35,38 +33,47 @@ const defaultClientsValues = allClientSchemas.cast({});
 
 type IClientValues = typeof defaultClientsValues;
 
-const EditClientForm = () => {
+const EditClientForm = ({ client }: { client: IClientData }) => {
   const { handleAlert } = useAlert();
 
   const router = useRouter();
-  const { clientId } = router.query;
-
-  const { client, clientLoading, clientError } = useClient(clientId as string);
 
   const methods = useForm({
     resolver: yupResolver(allClientSchemas),
     shouldUnregister: false,
-    defaultValues: client,
+    defaultValues: {
+      //info
+      firstName: client.firstName,
+      surname: client.surname,
+      email: client.email,
+      dateOfBirth: client.dateOfBirth,
+      gender: client.gender,
+      pal: client.pal,
+      phoneNumber: client.phoneNumber,
+      street: client.street,
+      zipCode: client.zipCode,
+      city: client.city,
+      notes: client.notes,
+      //aims
+      expectedBodyWeight: client.expectedBodyWeight,
+      specificAims: client.specificAims,
+      //diseases
+      diseases: client.diseases,
+      alergens: client.alergens,
+    },
     mode: "onBlur",
   });
+
   const {
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, isDirty, dirtyFields },
     reset,
   } = methods;
-
-  useEffect(() => {
-    if (client) {
-      for (const [key, value] of Object.entries(client)) {
-        methods.setValue(key as any, value);
-      }
-    }
-  }, [client]);
 
   const onSubmit: SubmitHandler<IClientValues> = async (data) => {
     try {
       const editClient = await axiosInstance.put(
-        `/api/clients/${clientId}`,
+        `/api/clients/${client._id}`,
         data,
         {
           withCredentials: true,
@@ -83,9 +90,6 @@ const EditClientForm = () => {
     }
   };
 
-  if (clientLoading) return <LoadingGrid />;
-  if (clientError) return <DataError />;
-
   return (
     <FormProvider {...methods}>
       <Styled.FormContainer onSubmit={handleSubmit(onSubmit as any)}>
@@ -95,7 +99,11 @@ const EditClientForm = () => {
         <Styled.ButtonWrapper>
           <Button
             size={"large"}
-            variant={isSubmitting || !isValid ? "disabled" : "primary"}
+            variant={
+              isSubmitting || !isValid || Object.values(dirtyFields).length < 1
+                ? "disabled"
+                : "primary"
+            }
             type="submit"
           >
             {isSubmitting ? (

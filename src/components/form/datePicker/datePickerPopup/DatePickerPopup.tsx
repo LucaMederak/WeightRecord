@@ -153,7 +153,7 @@ const DatePickerPopup = ({
     console.log(newDayFormat);
 
     setSelectedDay(day);
-    setValue(name, newDayFormat);
+    setValue(name, newDayFormat, { shouldDirty: true });
   };
 
   const dateValid = (day: Date) => {

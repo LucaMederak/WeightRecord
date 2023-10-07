@@ -96,7 +96,12 @@ const BasicInfo = () => {
           optionLabel={"value"}
           optionRender={"value"}
         />
-        <Input type="text" name="phone" label={`Numer telefonu`} fullWidth />
+        <Input
+          type="text"
+          name="phoneNumber"
+          label={`Numer telefonu`}
+          fullWidth
+        />
         <Input type="text" name="street" label={`Ulica`} fullWidth />
         <Input type="text" name="zipCode" label={`Kod pocztowy`} fullWidth />
         <Input type="text" name="city" label={`Miasto`} fullWidth />

@@ -32,25 +32,24 @@ const Autocomplete = ({
   };
 
   const [autocompletePopup, setAutocompletePopup] = useState(false);
-  const [inputContent, setInputContent] = useState<string>(
-    field.value?.toString() || ""
-  );
+  const [inputContent, setInputContent] = useState<string>("");
 
   useEffect(() => {
     //close popup helper
-    const listFilter = options.filter(
-      (option) => option[optionLabel].toString() === inputContent
-    );
+    if (autocompletePopup === false) {
+      const listFilter = options.filter(
+        (option) => option[optionLabel].toString() === inputContent
+      );
 
-    if (listFilter.length < 1) {
-      if (typeof options[0][renderValue] === "number") {
-        setValue(name, 0);
-      } else {
-        setValue(name, "");
+      if (listFilter.length < 1) {
+        if (typeof options[0][renderValue] === "number") {
+          setValue(name, 0);
+        } else {
+          setValue(name, "");
+        }
+        setInputContent("");
       }
-      setInputContent("");
     }
-    return;
   }, [autocompletePopup]);
 
   //initial values
@@ -88,27 +87,33 @@ const Autocomplete = ({
   }, [field.value]);
 
   const optionFilter = (options: IAutocompleteProps["options"]) => {
-    if (
-      options.find((option) => option[optionLabel].toString() === inputContent)
-    ) {
+    const isSelectedValue = options.find(
+      (option) => option[optionLabel].toString() === inputContent
+    );
+
+    //return all available options when selected value
+    if (isSelectedValue) {
       return options;
     }
 
-    return options.filter((option) =>
+    //filter options when input content was change
+    const filterOptions = options.filter((option) =>
       option[optionLabel]
         .toString()
         .toLowerCase()
         .includes(inputContent.toLowerCase())
     );
+
+    return filterOptions;
   };
 
   const handleChange = (value: string) => {
     if (typeof options[0][renderValue] === "number") {
       const numberValue = parseFloat(parseFloat(value).toFixed(2));
 
-      setValue(name, numberValue);
+      setValue(name, numberValue, { shouldDirty: true });
     } else {
-      setValue(name, value !== null ? value : "");
+      setValue(name, value !== null ? value : "", { shouldDirty: true });
     }
 
     const getOptionLabel = options.find(
