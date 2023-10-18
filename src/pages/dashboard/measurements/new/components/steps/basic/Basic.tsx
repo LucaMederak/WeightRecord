@@ -5,7 +5,6 @@ import Input from "@/components/form/input/Input";
 import StepWrapper from "@/components/form/step/StepWrapper";
 
 import { useFormContext } from "react-hook-form";
-import formatDistance from "date-fns/formatDistance";
 import differenceInYears from "date-fns/differenceInYears";
 
 //queries
@@ -26,10 +25,10 @@ const BasicData = () => {
   } = useFormContext();
 
   const clientId = getValues("client") as string;
-  const weight = getValues("weight");
-  const height = getValues("height");
+  const weight = watch("weight");
+  const height = watch("height");
 
-  const { client, clientLoading, clientError } = useClient(clientId);
+  const { client } = useClient(clientId);
 
   const age =
     client && differenceInYears(new Date(), new Date(client.dateOfBirth));
@@ -56,7 +55,7 @@ const BasicData = () => {
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = !e.currentTarget.value
-      ? undefined
+      ? null
       : parseFloat(parseFloat(e.currentTarget.value).toFixed(2));
 
     setValue(e.currentTarget.name, value);

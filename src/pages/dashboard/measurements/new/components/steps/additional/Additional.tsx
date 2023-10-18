@@ -49,7 +49,7 @@ const AdditionalData = () => {
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = !e.currentTarget.value
-      ? undefined
+      ? null
       : parseFloat(parseFloat(e.currentTarget.value).toFixed(2));
 
     setValue(e.currentTarget.name, value);
