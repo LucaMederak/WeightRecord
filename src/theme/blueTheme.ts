@@ -5,7 +5,8 @@ export const blueTheme = {
   id: "T_01",
   name: "blue theme",
   shadows: {
-    backdrop: "0px 4px 16px #3A4D6F;",
+    backdrop: "0px 4px 16px #3A4D6F",
+    default: "0px 4px 22px rgba(172, 172, 172, 0.26)",
   },
   colors: {
     ...blueColors,
@@ -199,3 +200,5 @@ export const darkBlueTheme = {
     },
   },
 };
+
+export type ITheme = typeof blueTheme;

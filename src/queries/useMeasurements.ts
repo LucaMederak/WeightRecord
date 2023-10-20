@@ -15,6 +15,19 @@ export const useMeasurements = () => {
   };
 };
 
+export const useClientMeasurements = (clientId: string) => {
+  const { data, error } = useSWR<IMeasurementData[]>(
+    `/api/measurements/clients?clientId=${clientId}`,
+    fetcher
+  );
+
+  return {
+    clientMeasurements: data,
+    clientMeasurementsLoading: !error && !data,
+    clientMeasurementsError: error,
+  };
+};
+
 export const useMeasurement = (measurementId: string) => {
   const { data, error } = useSWR<IMeasurementData>(
     `/api/measurements/${measurementId}`,

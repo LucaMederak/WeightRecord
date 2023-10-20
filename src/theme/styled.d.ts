@@ -1,5 +1,5 @@
 import "styled-components";
-import { ITheme } from "./violetTheme";
+import { ITheme } from "./blueTheme";
 
 declare module "styled-components" {
   export interface DefaultTheme extends ITheme {}

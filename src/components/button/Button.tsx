@@ -1,5 +1,5 @@
 import { IChildrenProps } from "@/interfaces/children.interfaces";
-import React from "react";
+import React, { ReactNode } from "react";
 
 //styles
 import * as Styled from "./Button.styles";
@@ -16,6 +16,7 @@ export interface IButtonProps {
     | "disabled";
   className?: string;
   onClick?: () => void;
+  icon?: ReactNode;
 }
 
 const Button = ({
@@ -25,6 +26,7 @@ const Button = ({
   className,
   onClick,
   children,
+  icon,
 }: IButtonProps & IChildrenProps) => {
   return (
     <Styled.Button
@@ -35,6 +37,7 @@ const Button = ({
       onClick={onClick}
       className={className}
     >
+      {icon}
       {children}
     </Styled.Button>
   );

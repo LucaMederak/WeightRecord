@@ -4,7 +4,7 @@ import React from "react";
 import * as Styled from "./Heading.styles";
 
 //icons
-import { FaChevronLeft } from "react-icons/fa";
+import ReturnLink from "../returnLink/ReturnLink";
 
 interface IHeadingProps {
   title: string;
@@ -14,14 +14,7 @@ interface IHeadingProps {
 const Heading = ({ title, returnLink }: IHeadingProps) => {
   return (
     <Styled.HeadingWrapper>
-      {returnLink && (
-        <Styled.ReturnLinkWrapper href={`/${returnLink}`}>
-          <span>
-            <FaChevronLeft />
-          </span>
-          wróć
-        </Styled.ReturnLinkWrapper>
-      )}
+      {returnLink && <ReturnLink returnLink={returnLink} />}
       <h1>{title}</h1>
     </Styled.HeadingWrapper>
   );

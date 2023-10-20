@@ -19,6 +19,7 @@ const Button = styled.button<Pick<IButtonProps, "size" | "variant">>(
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 1.2rem;
 
     //size
     ${size === "small" &&
@@ -32,7 +33,7 @@ const Button = styled.button<Pick<IButtonProps, "size" | "variant">>(
 
     ${size === "base" &&
     css`
-      padding: 1.6rem 2.4rem;
+      padding: 1.4rem 2.4rem;
       min-height: 4rem;
       font-size: ${typography.base.fontSize};
       font-weight: ${typography.base.fontWeight.medium};
