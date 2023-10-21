@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 
-//queries
-import { useClient } from "@/queries/useClients";
-
 //components
 import Heading from "@/components/heading/Heading";
 import LoadingGrid from "@/components/dataLoading/LoadingGrid";
@@ -18,7 +15,7 @@ import { AnimatePresence } from "framer-motion";
 
 //styles
 import * as Styled from "./Measurement.styles";
-import { useMeasurement } from "@/queries/useMeasurements";
+import { useMeasurement } from "@/queries/measurements/useMeasurements";
 
 const MeasurementPage = () => {
   const [openDeleteMeasurementModal, setOpenDeleteMeasurementModal] =

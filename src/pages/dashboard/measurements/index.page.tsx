@@ -1,12 +1,7 @@
 import React from "react";
-import { useRouter } from "next/router";
-import { format } from "date-fns";
-
-//styles
-import * as Styled from "./Measurements.styles";
 
 //queries
-import { useMeasurements } from "@/queries/useMeasurements";
+import { useMeasurements } from "@/queries/measurements/useMeasurements";
 
 //icons
 import { FaPlus } from "react-icons/fa";
@@ -16,68 +11,61 @@ import ButtonLink from "@/components/buttonLink/ButtonLink";
 import LoadingGrid from "@/components/dataLoading/LoadingGrid";
 import DataError from "@/components/dataError/DataError";
 import DataNotFound from "@/components/dataNotFound/DataNotFound";
+import Heading from "@/components/heading/Heading";
+
+//interfaces
+import Table from "@/components/table/Table";
+
+//display helpers
+import {
+  measurementColumns,
+  getMeasurementsData,
+} from "@/queries/measurements/displayMeasurements";
 
 const MeasurementsPage = () => {
-  const router = useRouter();
   const { measurements, measurementsLoading, measurementsError } =
     useMeasurements();
 
   if (measurementsLoading) return <LoadingGrid />;
   if (measurementsError) return <DataError />;
+  if (!measurements || measurements.length < 1)
+    return (
+      <>
+        <Heading
+          title="Pomiary"
+          actionComponent={
+            <ButtonLink
+              icon={<FaPlus />}
+              text="dodaj pomiar"
+              linkSize={"base"}
+              variant="primary"
+              link={`/dashboard/measurements/new`}
+            />
+          }
+        />
+        <DataNotFound />
+      </>
+    );
 
   return (
     <>
-      <Styled.HeadingWrapper>
-        <h1>Pomiary</h1>
-        <ButtonLink
-          icon={<FaPlus />}
-          text="Dodaj pomiar"
-          linkSize={"base"}
-          variant="primary"
-          link={`/dashboard/measurements/new`}
-        />
-      </Styled.HeadingWrapper>
-
-      {measurements!.length < 1 && <DataNotFound />}
-
-      {measurements!.length > 0 && (
-        <Styled.MeasurementsWrapper>
-          <Styled.TableWrapper>
-            <Styled.TableHeadWrapper>
-              <tr>
-                <th>nazwa</th>
-                <th>data</th>
-                <th>kient</th>
-                <th>masa ciała (kg)</th>
-                <th>wysokość ciała (cm)</th>
-                <th>bmi</th>
-              </tr>
-            </Styled.TableHeadWrapper>
-            <Styled.TableBodyWrapper>
-              {measurements?.map((measurement) => (
-                <tr
-                  key={measurement._id}
-                  onClick={() =>
-                    router.push(`/dashboard/measurements/${measurement._id}`)
-                  }
-                >
-                  <td>{measurement.name}</td>
-                  <td> {format(new Date(measurement.date), "dd.MM.yyyy")}</td>
-                  <td>
-                    {" "}
-                    {measurement.client.firstName +
-                      " " +
-                      measurement.client.surname}
-                  </td>
-                  <td>{measurement.weight}</td>
-                  <td>{measurement.height}</td>
-                  <td>{measurement.bmi}</td>
-                </tr>
-              ))}
-            </Styled.TableBodyWrapper>
-          </Styled.TableWrapper>
-        </Styled.MeasurementsWrapper>
-      )}
+      <Heading
+        title="Pomiary"
+        actionComponent={
+          <ButtonLink
+            icon={<FaPlus />}
+            text="dodaj pomiar"
+            linkSize={"base"}
+            variant="primary"
+            link={`/dashboard/measurements/new`}
+          />
+        }
+      />
+      <Table
+        items={getMeasurementsData(measurements)}
+        columns={measurementColumns}
+        itemLink={"/dashboard/measurements"}
+      />
     </>
   );
 };

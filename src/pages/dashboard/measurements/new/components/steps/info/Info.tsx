@@ -8,7 +8,7 @@ import Autocomplete from "@/components/form/autocomplete/Autocomplete";
 import StepWrapper from "@/components/form/step/StepWrapper";
 
 //quries
-import { useClients } from "@/queries/useClients";
+import { useClients } from "@/queries/clients/useClients";
 import LoadingGrid from "@/components/dataLoading/LoadingGrid";
 import DataError from "@/components/dataError/DataError";
 

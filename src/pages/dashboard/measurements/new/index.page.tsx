@@ -1,5 +1,5 @@
 import React from "react";
-import { useClients } from "@/queries/useClients";
+import { useClients } from "@/queries/clients/useClients";
 import { FaPlus } from "react-icons/fa";
 import DataEmptyImg from "@/assets/dataEmpty.svg";
 

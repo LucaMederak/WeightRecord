@@ -9,14 +9,18 @@ import ReturnLink from "../returnLink/ReturnLink";
 interface IHeadingProps {
   title: string;
   returnLink?: string;
+  actionComponent?: JSX.Element;
 }
 
-const Heading = ({ title, returnLink }: IHeadingProps) => {
+const Heading = ({ title, returnLink, actionComponent }: IHeadingProps) => {
   return (
-    <Styled.HeadingWrapper>
+    <Styled.HeadingContainer>
       {returnLink && <ReturnLink returnLink={returnLink} />}
-      <h1>{title}</h1>
-    </Styled.HeadingWrapper>
+      <Styled.HeadingWithActionWrapper>
+        <h1>{title}</h1>
+        {actionComponent}
+      </Styled.HeadingWithActionWrapper>
+    </Styled.HeadingContainer>
   );
 };
 

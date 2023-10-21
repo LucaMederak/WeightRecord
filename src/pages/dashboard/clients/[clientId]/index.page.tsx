@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 
 //queries
-import { useClient } from "@/queries/useClients";
+import { useClient } from "@/queries/clients/useClients";
 
 //components
 import LoadingGrid from "@/components/dataLoading/LoadingGrid";

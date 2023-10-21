@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import * as Styled from "./ClientMeasurements.styles";
 
 //queries
-import { useClientMeasurements } from "@/queries/useMeasurements";
+import { useClientMeasurements } from "@/queries/measurements/useMeasurements";
 
 //icons
 import { FaPlus } from "react-icons/fa";

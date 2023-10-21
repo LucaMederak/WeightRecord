@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { useClient } from "@/queries/useClients";
+import { useClient } from "@/queries/clients/useClients";
 
 //components
 import Heading from "@/components/heading/Heading";

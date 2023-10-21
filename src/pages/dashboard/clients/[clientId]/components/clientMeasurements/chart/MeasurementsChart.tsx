@@ -35,7 +35,7 @@ import ModalContentWrapper from "@/components/modal/Modal";
 import DataError from "@/components/dataError/DataError";
 import DataNotFound from "@/components/dataNotFound/DataNotFound";
 import LoadingGrid from "@/components/dataLoading/LoadingGrid";
-import { useClientMeasurements } from "@/queries/useMeasurements";
+import { useClientMeasurements } from "@/queries/measurements/useMeasurements";
 
 interface IMeasurementOption {
   id: number;

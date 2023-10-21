@@ -20,7 +20,7 @@ export interface IClientData {
   user: IUserData["_id"];
   firstName: string;
   surname: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
   gender: "male" | "female";
   email?: string;
   phoneNumber?: string;

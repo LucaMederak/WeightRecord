@@ -8,7 +8,7 @@ import { useFormContext } from "react-hook-form";
 import differenceInYears from "date-fns/differenceInYears";
 
 //queries
-import { useClient } from "@/queries/useClients";
+import { useClient } from "@/queries/clients/useClients";
 
 //helpers
 import { ppmHelper } from "@/helpers/ppm";

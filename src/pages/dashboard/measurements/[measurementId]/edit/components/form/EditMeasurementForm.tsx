@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/router";
-import { useMeasurement } from "@/queries/useMeasurements";
+import { useMeasurement } from "@/queries/measurements/useMeasurements";
 
 //form
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
