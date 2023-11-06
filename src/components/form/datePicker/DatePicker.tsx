@@ -47,7 +47,11 @@ const DatePicker = ({
             {...inputProps}
             value={field.value ? dateFormat(field.value) : ""}
           />
-          <button onClick={() => setDatePickerPopup(true)} type="button">
+          <button
+            onClick={() => setDatePickerPopup(true)}
+            type="button"
+            name="openDatePickerPopup"
+          >
             <FaCalendarPlus />
           </button>
         </Styled.DatePickerInputWrapper>

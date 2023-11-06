@@ -90,7 +90,7 @@ const DatePickerYearsWrapper = styled.div(
   `
 );
 
-const DatePickerYearItem = styled.div(
+const DatePickerYearItem = styled.button(
   ({ theme: { colors, typography } }) => css`
     display: flex;
     align-items: center;
@@ -100,20 +100,16 @@ const DatePickerYearItem = styled.div(
     border-radius: 0.4rem;
     cursor: pointer;
     transition: 0.3s ease-out;
+    background: ${colors.neutral[0]};
 
     :hover {
       background: ${colors.neutral[20]};
-      p {
-        color: ${colors.primary[500]};
-      }
+      color: ${colors.primary[500]};
     }
 
-    p {
-      transition: 0.3s ease-out;
-      font-size: ${typography.base.fontSize};
-      color: ${colors.text.heading};
-      font-weight: ${typography.base.fontWeight.medium};
-    }
+    font-size: ${typography.base.fontSize};
+    color: ${colors.text.heading};
+    font-weight: ${typography.base.fontWeight.medium};
   `
 );
 
@@ -198,7 +194,7 @@ interface ICurrentDay {
   disabledDay?: any;
 }
 
-const DatePickerDay = styled.div<ICurrentDay>(
+const DatePickerDay = styled.button<ICurrentDay>(
   ({
     theme: { colors, typography },
     currentDay,
@@ -218,6 +214,8 @@ const DatePickerDay = styled.div<ICurrentDay>(
     border-radius: 0.4rem;
     cursor: pointer;
     transition: 0.3s ease-out;
+    background: ${colors.neutral[0]};
+    border: none;
 
     :hover {
       background: ${colors.neutral[30]};

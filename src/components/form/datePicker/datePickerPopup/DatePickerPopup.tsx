@@ -57,6 +57,7 @@ const DatePickerPopup = ({
     setValue,
     watch,
     getValues,
+    trigger,
   } = useFormContext();
   const [openYearsBox, setOpenYearsBox] = useState(false);
   const datePickerRef = useRef<HTMLDivElement>(null);
@@ -154,6 +155,7 @@ const DatePickerPopup = ({
 
     setSelectedDay(day);
     setValue(name, newDayFormat, { shouldDirty: true });
+    trigger();
   };
 
   const dateValid = (day: Date) => {
@@ -200,7 +202,7 @@ const DatePickerPopup = ({
             <h2>-</h2>
           )}
 
-          <button type="button" onClick={openYears}>
+          <button type="button" onClick={openYears} name="openYearsPopup">
             <FaChevronDown />
           </button>
         </Styled.DatePickerYearOption>
@@ -222,6 +224,7 @@ const DatePickerPopup = ({
             <Styled.DatePickerYearItem
               key={calendarYear.toString()}
               onClick={() => changeYear(calendarYear)}
+              type="button"
             >
               <p>{dateFormat(calendarYear)}</p>{" "}
             </Styled.DatePickerYearItem>
@@ -241,12 +244,14 @@ const DatePickerPopup = ({
       <Styled.GridDatePicker>
         {datePickerValues.daysArray.map((day, index) => (
           <Styled.DatePickerDay
+            type="button"
             key={index}
             currentDay={isSameDay(day, new Date())}
             currentMonth={!isSameMonth(day, datePickerValues.month)}
             selectedDay={isSameDay(day, selectedDay)}
             onClick={() => handleChangeDay(day)}
             disabledDay={dateValid(day)}
+            name="datePickerDay"
           >
             {format(day, "dd")}
           </Styled.DatePickerDay>

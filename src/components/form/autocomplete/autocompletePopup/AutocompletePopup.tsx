@@ -54,6 +54,7 @@ const CalendarPopup = ({
           <Styled.AutocompletePopupItem
             key={option[renderValue]}
             onClick={() => handleChange(option[renderValue].toString())}
+            id="autocompleteOption"
           >
             {option[optionLabel]}
           </Styled.AutocompletePopupItem>
