@@ -7,13 +7,13 @@ import StepWrapper from "@/components/form/step/StepWrapper";
 import { useFormContext } from "react-hook-form";
 import differenceInYears from "date-fns/differenceInYears";
 
-//queries
-import { useClient } from "@/queries/clients/useClients";
-
 //helpers
 import { ppmHelper } from "@/helpers/ppm";
 import { cpmHelper } from "@/helpers/cpm";
 import { bmiHelper } from "@/helpers/bmi";
+
+//services
+import { getClient } from "@/services/client.service";
 
 const BasicData = () => {
   const {
@@ -28,7 +28,7 @@ const BasicData = () => {
   const weight = watch("weight");
   const height = watch("height");
 
-  const { client } = useClient(clientId);
+  const { client } = getClient(clientId);
 
   const age =
     client && differenceInYears(new Date(), new Date(client.dateOfBirth));

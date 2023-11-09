@@ -6,14 +6,14 @@ import DatePicker from "@/components/form/datePicker/DatePicker";
 import Input from "@/components/form/input/Input";
 import Autocomplete from "@/components/form/autocomplete/Autocomplete";
 import StepWrapper from "@/components/form/step/StepWrapper";
-
-//quries
-import { useClients } from "@/queries/clients/useClients";
 import LoadingGrid from "@/components/dataLoading/LoadingGrid";
 import DataError from "@/components/dataError/DataError";
 
+//services
+import { getClients } from "@/services/client.service";
+
 const Info = () => {
-  const { clients, clientsError, clientsLoading } = useClients();
+  const { clients, clientsError, clientsLoading } = getClients();
   const {
     control,
     formState: { errors },

@@ -1,4 +1,4 @@
-import { useUser } from "@/queries/useUser";
+import { useUser } from "@/services/useUser";
 import React from "react";
 
 //styles

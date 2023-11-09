@@ -1,9 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
 
-//queries
-import { useClient } from "@/queries/clients/useClients";
-
 //components
 import LoadingGrid from "@/components/dataLoading/LoadingGrid";
 import DataError from "@/components/dataError/DataError";
@@ -14,11 +11,14 @@ import * as Styled from "./Client.styles";
 import DataNotFound from "@/components/dataNotFound/DataNotFound";
 import ClientMeasurements from "./components/clientMeasurements/ClientMeasurements";
 
+//services
+import { getClient } from "@/services/client.service";
+
 const ClientPage = () => {
   const router = useRouter();
   const { clientId } = router.query;
 
-  const { client, clientLoading, clientError } = useClient(clientId as string);
+  const { client, clientLoading, clientError } = getClient(clientId as string);
 
   if (clientLoading) return <LoadingGrid />;
   if (clientError) return <DataError />;

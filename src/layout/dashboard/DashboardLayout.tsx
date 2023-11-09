@@ -16,7 +16,7 @@ import PageLoading from "@/components/pageLoading/PageLoading";
 import Alert from "@/components/alert/Alert";
 
 //queries
-import { useUser } from "@/queries/useUser";
+import { useUser } from "@/services/useUser";
 
 export type DashboardView = "default" | "rolledUp";
 

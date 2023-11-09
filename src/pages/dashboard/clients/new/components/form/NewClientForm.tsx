@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import axiosInstance from "@/utils/axiosInstance";
+import React from "react";
 import { useRouter } from "next/router";
+import { handleApiErrors } from "@/utils/apiErrorsHandler";
 
 //form
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
@@ -10,9 +10,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useAlert } from "@/context/Alert.context";
 
 //schema
-import { clientInfoSchema } from "@/schemas/client/clientInfo.schema";
-import { clientDiseasesSchema } from "@/schemas/client/clientDiseases.schema";
-import { clientAimsSchema } from "@/schemas/client/clientAims.schema";
+import { clientSchema, defaultClientInputData } from "@/schemas/client";
+import { IClientInputData } from "@/interfaces/client.interfaces";
 
 //styles
 import * as Styled from "./NewClientForm.styles";
@@ -23,21 +22,15 @@ import ReactLoading from "react-loading";
 
 //steps
 import * as Step from "../steps";
-
-const allClientSchemas = clientInfoSchema
-  .concat(clientDiseasesSchema)
-  .concat(clientAimsSchema);
-
-const defaultClientsValues = allClientSchemas.cast({});
-
-type IClientValues = typeof defaultClientsValues;
+import { addClient } from "@/services/client.service";
 
 const NewClientForm = () => {
   const router = useRouter();
+  const { handleAlert } = useAlert();
   const methods = useForm({
-    resolver: yupResolver(allClientSchemas),
+    resolver: yupResolver(clientSchema),
     shouldUnregister: false,
-    defaultValues: defaultClientsValues,
+    defaultValues: defaultClientInputData,
     mode: "onBlur",
   });
 
@@ -46,21 +39,24 @@ const NewClientForm = () => {
     formState: { isSubmitting, isValid },
     reset,
   } = methods;
-  const { handleAlert } = useAlert();
 
-  const onSubmit: SubmitHandler<IClientValues> = async (data) => {
+  const onSubmit: SubmitHandler<IClientInputData> = async (data) => {
     try {
-      const newClient = await axiosInstance.post(`/api/clients`, data, {
-        withCredentials: true,
-      });
-
+      const newClient = await addClient(data);
       reset();
-      handleAlert("success", "Dodano nowego klienta");
+      handleAlert(
+        "success",
+        `Dodano nowego klienta: ${
+          newClient.data.firstName + " " + newClient.data.surname
+        } `
+      );
       router.push("/dashboard/clients");
     } catch (e) {
-      console.log(e);
-      handleAlert("error", "Dodawanie nowego klienta nie powiodło się");
-      router.push("/dashboard/clients");
+      const { alertMessage } = handleApiErrors(e);
+      handleAlert(
+        "error",
+        `Dodawanie nowego klienta nie powiodło się. ${alertMessage}`
+      );
     }
   };
 

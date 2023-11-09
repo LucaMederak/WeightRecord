@@ -7,7 +7,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import * as Styled from "./AuthOption.styles";
 
 //queries
-import { useUser } from "@/queries/useUser";
+import { useUser } from "@/services/useUser";
 
 //icons
 import { FaUserAlt } from "react-icons/fa";

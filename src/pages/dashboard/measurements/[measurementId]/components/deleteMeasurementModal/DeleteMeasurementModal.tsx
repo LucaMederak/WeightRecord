@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAlert } from "@/context/Alert.context";
 import Button from "@/components/button/Button";
 import { IMeasurementData } from "@/interfaces/measurement.interfaces";
 import { useRouter } from "next/router";
-import axiosInstance from "@/utils/axiosInstance";
 import ReactLoading from "react-loading";
 
 //assets
@@ -12,6 +11,12 @@ import Image from "next/image";
 
 //styles
 import * as Styled from "./DeleteMeasurementModal.styles";
+
+//utils
+import { handleApiErrors } from "@/utils/apiErrorsHandler";
+
+//services
+import { deleteMeasurement } from "@/services/measurement.service";
 
 interface IDeleteMeasurementModalProps {
   measurement: IMeasurementData;
@@ -26,20 +31,20 @@ const DeleteMeasurementModal = ({
   const router = useRouter();
   const { handleAlert } = useAlert();
 
-  const deleteMeasurement = async () => {
+  const deleteMeasurementHandler = async () => {
     try {
       setLoading(true);
-      await axiosInstance.delete(`/api/measurements/${measurement._id}`, {
-        withCredentials: true,
-      });
-
+      await deleteMeasurement(measurement._id);
       closeModal();
       handleAlert("success", "Usunięto pomiar");
       router.push("/dashboard/measurements");
     } catch (e) {
       setLoading(false);
-      console.log(e);
-      handleAlert("error", "Wystąpił błąd podczas usuwania pomiaru");
+      const { alertMessage } = handleApiErrors(e);
+      handleAlert(
+        "error",
+        `Usuwanie pomiaru nie powiodło się. ${alertMessage}`
+      );
     }
   };
 
@@ -54,7 +59,7 @@ const DeleteMeasurementModal = ({
         size={"base"}
         variant={loading ? "disabled" : "danger"}
         type="button"
-        onClick={deleteMeasurement}
+        onClick={deleteMeasurementHandler}
       >
         {loading ? (
           <ReactLoading type={"spin"} color={"white"} height={20} width={20} />

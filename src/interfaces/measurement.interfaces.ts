@@ -1,12 +1,8 @@
 import { IClientData } from "./client.interfaces";
 import { IUserData } from "./user.interfaces";
 
-export interface IMeasurementData {
-  _id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  user: IUserData["_id"];
-  client: IClientData;
+export interface IMeasurementInputData {
+  client: IClientData["_id"];
   name: string;
   date: Date;
   notes?: string;
@@ -35,4 +31,13 @@ export interface IMeasurementData {
   shoulder_blade?: number;
   ala_of_ilium?: number;
   iliac_spine?: number;
+}
+
+export interface IMeasurementData
+  extends Omit<IMeasurementInputData, "client"> {
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user: IUserData["_id"];
+  client: IClientData;
 }

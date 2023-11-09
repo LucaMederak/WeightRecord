@@ -5,9 +5,6 @@ import { format } from "date-fns";
 //styles
 import * as Styled from "./ClientMeasurements.styles";
 
-//queries
-import { useClientMeasurements } from "@/queries/measurements/useMeasurements";
-
 //icons
 import { FaPlus } from "react-icons/fa";
 
@@ -17,13 +14,16 @@ import LoadingGrid from "@/components/dataLoading/LoadingGrid";
 import DataError from "@/components/dataError/DataError";
 import ClientMeasurementsChart from "./chart/MeasurementsChart";
 
+//services
+import { getClientMeasurements } from "@/services/measurement.service";
+
 const ClientMeasurements = ({ clientId }: { clientId: string }) => {
   const router = useRouter();
   const {
     clientMeasurements,
     clientMeasurementsLoading,
     clientMeasurementsError,
-  } = useClientMeasurements(clientId);
+  } = getClientMeasurements(clientId);
 
   if (clientMeasurementsLoading) return <LoadingGrid />;
   if (clientMeasurementsError) return <DataError />;

@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import axiosInstance from "@/utils/axiosInstance";
+import React from "react";
 import { useRouter } from "next/router";
 
 //form
@@ -8,11 +7,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 //context
 import { useAlert } from "@/context/Alert.context";
-
-//schema
-import { measurementInfoSchema } from "@/schemas/measurement/measurementInfo.schema";
-import { measurementBasicSchema } from "@/schemas/measurement/measurementBasic.schema";
-import { measurementAdditionalSchema } from "@/schemas/measurement/measurementAdditional.schema";
 
 //styles
 import * as Styled from "./NewMeasurementForm.styles";
@@ -24,20 +18,21 @@ import ReactLoading from "react-loading";
 //steps
 import * as Step from "../steps";
 
-const allMeasurementsSchemas = measurementInfoSchema
-  .concat(measurementBasicSchema)
-  .concat(measurementAdditionalSchema);
-
-const defaultMeasurementsValues = allMeasurementsSchemas.cast({});
-
-type IMeasurementValues = typeof defaultMeasurementsValues;
+//schema
+import {
+  measurementSchema,
+  defaultMeasurementInputData,
+} from "@/schemas/measurement";
+import { IMeasurementInputData } from "@/interfaces/measurement.interfaces";
+import { handleApiErrors } from "@/utils/apiErrorsHandler";
+import { addMeasurement } from "@/services/measurement.service";
 
 const NewMeasurementForm = () => {
   const router = useRouter();
   const methods = useForm({
-    resolver: yupResolver(allMeasurementsSchemas),
+    resolver: yupResolver(measurementSchema),
     shouldUnregister: false,
-    defaultValues: defaultMeasurementsValues,
+    defaultValues: defaultMeasurementInputData,
     mode: "onBlur",
   });
 
@@ -48,23 +43,22 @@ const NewMeasurementForm = () => {
   } = methods;
   const { handleAlert } = useAlert();
 
-  const onSubmit: SubmitHandler<IMeasurementValues> = async (data) => {
+  const onSubmit: SubmitHandler<IMeasurementInputData> = async (data) => {
     try {
-      const newMeasurement = await axiosInstance.post(
-        `/api/measurements`,
-        data,
-        {
-          withCredentials: true,
-        }
+      const newMeasurement = await addMeasurement(data);
+      reset();
+      handleAlert(
+        "success",
+        `Dodano nowy pomiar: ${newMeasurement.data.name} `
       );
 
-      reset();
-      handleAlert("success", "Dodano nowy pomiar");
       router.push("/dashboard/measurements");
     } catch (e) {
-      console.log(e);
-      handleAlert("error", "Dodawanie nowego pomiaru nie powiodło się");
-      router.push("/dashboard/measurements");
+      const { alertMessage } = handleApiErrors(e);
+      handleAlert(
+        "error",
+        `Dodawanie nowego pomiaru nie powiodło się. ${alertMessage}`
+      );
     }
   };
 

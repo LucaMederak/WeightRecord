@@ -35,7 +35,9 @@ import ModalContentWrapper from "@/components/modal/Modal";
 import DataError from "@/components/dataError/DataError";
 import DataNotFound from "@/components/dataNotFound/DataNotFound";
 import LoadingGrid from "@/components/dataLoading/LoadingGrid";
-import { useClientMeasurements } from "@/queries/measurements/useMeasurements";
+
+//services
+import { getClientMeasurements } from "@/services/measurement.service";
 
 interface IMeasurementOption {
   id: number;
@@ -86,7 +88,7 @@ const ClientMeasurementsChart = ({ clientId }: { clientId: string }) => {
     clientMeasurements,
     clientMeasurementsLoading,
     clientMeasurementsError,
-  } = useClientMeasurements(clientId);
+  } = getClientMeasurements(clientId);
 
   const [currentOption, setCurrentOption] = useState(measurementOptions[0]);
   const [measurementStart, setMeasurementStart] = useState<IMeasurementData>();

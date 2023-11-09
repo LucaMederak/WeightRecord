@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import axiosInstance from "@/utils/axiosInstance";
+import React from "react";
 import { useRouter } from "next/router";
-import { useMeasurement } from "@/queries/measurements/useMeasurements";
+import { IMeasurementData } from "@/interfaces/measurement.interfaces";
 
 //form
 import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
@@ -10,47 +9,36 @@ import { yupResolver } from "@hookform/resolvers/yup";
 //context
 import { useAlert } from "@/context/Alert.context";
 
-//schema
-import { measurementInfoSchema } from "@/schemas/measurement/measurementInfo.schema";
-import { measurementBasicSchema } from "@/schemas/measurement/measurementBasic.schema";
-import { measurementAdditionalSchema } from "@/schemas/measurement/measurementAdditional.schema";
-
 //styles
 import * as Styled from "./EditMeasurementForm.styles";
 
 //components
 import Button from "@/components/button/Button";
 import ReactLoading from "react-loading";
-import DataError from "@/components/dataError/DataError";
-import LoadingGrid from "@/components/dataLoading/LoadingGrid";
 
 //steps
 import * as Step from "../steps";
 
-const allMeasurementsSchemas = measurementInfoSchema
-  .concat(measurementBasicSchema)
-  .concat(measurementAdditionalSchema);
+//schema
+import { measurementSchema } from "@/schemas/measurement";
+import { IMeasurementInputData } from "@/interfaces/measurement.interfaces";
+import { handleApiErrors } from "@/utils/apiErrorsHandler";
+import { updateMeasurement } from "@/services/measurement.service";
 
-const defaultMeasurementsValues = allMeasurementsSchemas.cast({});
-
-type IMeasurementValues = typeof defaultMeasurementsValues;
-
-const EditMeasurementForm = () => {
+const EditMeasurementForm = ({
+  measurement,
+}: {
+  measurement: IMeasurementData;
+}) => {
   const router = useRouter();
 
-  const { measurementId } = router.query;
-
-  const { measurement, measurementLoading, measurementError } = useMeasurement(
-    measurementId as string
-  );
-
-  const editMeasurementFormData = {
+  const editMeasurementFormData: IMeasurementInputData = {
     ...measurement,
-    client: measurement?.client._id,
+    client: measurement.client._id,
   };
 
   const methods = useForm({
-    resolver: yupResolver(allMeasurementsSchemas),
+    resolver: yupResolver(measurementSchema),
     shouldUnregister: false,
     defaultValues: editMeasurementFormData,
     mode: "onBlur",
@@ -58,48 +46,33 @@ const EditMeasurementForm = () => {
 
   const {
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, dirtyFields },
     reset,
   } = methods;
   const { handleAlert } = useAlert();
 
-  useEffect(() => {
-    if (measurement) {
-      const editMeasurementFormData = {
-        ...measurement,
-        client: measurement?.client._id,
-      };
-
-      for (const [key, value] of Object.entries(editMeasurementFormData)) {
-        methods.setValue(key as any, value);
-      }
-    }
-  }, [measurement]);
-
-  const onSubmit: SubmitHandler<IMeasurementValues> = async (data) => {
+  const onSubmit: SubmitHandler<IMeasurementInputData> = async (data) => {
     try {
-      const editMeasurement = await axiosInstance.put(
-        `/api/measurements/${measurement?._id}`,
-        data,
-        {
-          withCredentials: true,
-        }
+      const updatedMeasurement = await updateMeasurement(data, measurement._id);
+      reset();
+      handleAlert(
+        "success",
+        `Edytowano pomiar: ${updatedMeasurement.data.name} `
       );
 
-      handleAlert("success", "Edytowano pomiar");
-      router.push("/dashboard/measurements");
+      router.push(`/dashboard/measurements/${updatedMeasurement.data._id}`);
     } catch (e) {
-      console.log(e);
-      handleAlert("error", "Edytowanie pomiaru nie powiodło się");
+      const { alertMessage } = handleApiErrors(e);
+      handleAlert(
+        "error",
+        `Edytowanie pomiaru nie powiodło się. ${alertMessage}`
+      );
     }
   };
 
-  if (measurementLoading) return <LoadingGrid />;
-  if (measurementError) return <DataError />;
-
   return (
     <FormProvider {...methods}>
-      <Styled.FormContainer onSubmit={handleSubmit(onSubmit as any)}>
+      <Styled.FormContainer onSubmit={handleSubmit(onSubmit)}>
         <Step.Info />
         <Step.Basic />
         <Step.Additional />

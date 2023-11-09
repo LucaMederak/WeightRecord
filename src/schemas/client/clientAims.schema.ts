@@ -1,6 +1,14 @@
 import * as yup from "yup";
+import { IClientInputData } from "@/interfaces/client.interfaces";
 
-export const clientAimsSchema = yup.object().shape({
-  expectedBodyWeight: yup.number(),
-  specificAims: yup.array(yup.string()).default([]),
-});
+type IClientAimsInput = Pick<
+  IClientInputData,
+  "expectedBodyWeight" | "specificAims"
+>;
+
+export const clientAimsSchema: yup.ObjectSchema<IClientAimsInput> = yup
+  .object()
+  .shape({
+    expectedBodyWeight: yup.number(),
+    specificAims: yup.array(yup.string().required()).default([]),
+  });

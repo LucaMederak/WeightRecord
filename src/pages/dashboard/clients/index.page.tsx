@@ -1,8 +1,5 @@
 import React from "react";
 
-//queries
-import { useClients } from "@/queries/clients/useClients";
-
 //icons
 import { FaPlus } from "react-icons/fa";
 
@@ -13,34 +10,18 @@ import DataError from "@/components/dataError/DataError";
 import DataNotFound from "@/components/dataNotFound/DataNotFound";
 import Heading from "@/components/heading/Heading";
 import Table from "@/components/table/Table";
-import {
-  clientColumns,
-  getClientsData,
-} from "@/queries/clients/displayClients";
+
+//display data
+import { clientColumns, getClientsData } from "./Clients.display";
+
+//services
+import { getClients } from "@/services/client.service";
 
 const ClientsPage = () => {
-  const { clients, clientsLoading, clientsError } = useClients();
+  const { clients, clientsLoading, clientsError } = getClients();
 
   if (clientsLoading) return <LoadingGrid />;
   if (clientsError) return <DataError />;
-  if (!clients || clients.length < 1)
-    return (
-      <>
-        <Heading
-          title="Klienci"
-          actionComponent={
-            <ButtonLink
-              icon={<FaPlus />}
-              text="Dodaj klienta"
-              linkSize={"base"}
-              variant="primary"
-              link={`/dashboard/clients/new`}
-            />
-          }
-        />
-        <DataNotFound />
-      </>
-    );
 
   return (
     <>
@@ -56,11 +37,16 @@ const ClientsPage = () => {
           />
         }
       />
-      <Table
-        items={getClientsData(clients)}
-        columns={clientColumns}
-        itemLink={"/dashboard/clients"}
-      />
+
+      {!clients || clients?.length < 1 ? (
+        <DataNotFound />
+      ) : (
+        <Table
+          items={getClientsData(clients)}
+          columns={clientColumns}
+          itemLink={"/dashboard/clients"}
+        />
+      )}
     </>
   );
 };

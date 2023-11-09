@@ -6,7 +6,7 @@ import { AnimatePresence } from "framer-motion";
 import { IChildrenProps } from "@/interfaces/children.interfaces";
 
 //queries
-import { useUser } from "@/queries/useUser";
+import { useUser } from "@/services/useUser";
 
 //context
 import { useAlert } from "@/context/Alert.context";

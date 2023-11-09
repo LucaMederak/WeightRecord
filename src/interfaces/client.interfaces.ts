@@ -13,11 +13,7 @@ type IDisease =
 
 type IAlergen = "peanuts" | "rye" | "eggProtein";
 
-export interface IClientData {
-  _id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  user: IUserData["_id"];
+export interface IClientInputData {
   firstName: string;
   surname: string;
   dateOfBirth: string;
@@ -33,4 +29,11 @@ export interface IClientData {
   expectedBodyWeight?: number;
   specificAims?: string[];
   pal: number;
+}
+
+export interface IClientData extends IClientInputData {
+  _id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user: IUserData["_id"];
 }

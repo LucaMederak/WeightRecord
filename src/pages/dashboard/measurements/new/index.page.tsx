@@ -1,5 +1,4 @@
 import React from "react";
-import { useClients } from "@/queries/clients/useClients";
 import { FaPlus } from "react-icons/fa";
 import DataEmptyImg from "@/assets/dataEmpty.svg";
 
@@ -14,8 +13,11 @@ import ButtonLink from "@/components/buttonLink/ButtonLink";
 //styles
 import * as Styled from "./NewMeasurement.styles";
 
+//services
+import { getClients } from "@/services/client.service";
+
 const NewMeasurementPage = () => {
-  const { clients, clientsError, clientsLoading } = useClients();
+  const { clients, clientsError, clientsLoading } = getClients();
 
   if (clientsLoading) return <LoadingGrid />;
   if (clientsError)
