@@ -1,5 +1,4 @@
 import React from "react";
-import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/router";
 import { mutate } from "swr";
 import { isAxiosError } from "axios";
@@ -12,10 +11,10 @@ import * as Styled from "./Auth.styles";
 
 //schema
 import {
-  ILoginSchema,
-  loginDefaultValues,
-  loginSchema,
-} from "./schema/loginSchema";
+  loginUserSchema,
+  defaultLoginUserInputData,
+} from "@/schemas/user/login.schema";
+import { ILoginUserInputData } from "@/interfaces/user.interfaces";
 
 //form
 import { useForm, FormProvider } from "react-hook-form";
@@ -31,15 +30,19 @@ import Image from "next/image";
 
 //context
 import { useAlert } from "@/context/Alert.context";
+//services
+import { loginUser } from "@/services/user.service";
+//utils
+import { handleApiErrors } from "@/utils/apiErrorsHandler";
 
 const LoginPage = () => {
   const { alert, handleAlert } = useAlert();
   const router = useRouter();
 
   const methods = useForm({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(loginUserSchema),
     shouldUnregister: false,
-    defaultValues: loginDefaultValues,
+    defaultValues: defaultLoginUserInputData,
     mode: "onBlur",
   });
 
@@ -54,26 +57,23 @@ const LoginPage = () => {
     watch,
   } = methods;
 
-  const onSubmit = async (data: ILoginSchema) => {
+  const onSubmit = async (data: ILoginUserInputData) => {
     try {
-      const loginData = await axiosInstance.post("/api/sessions", data, {
-        withCredentials: true,
-      });
-
+      const userSession = await loginUser(data);
       handleAlert("success", "Zalogowano");
       //redirect to dashboard
       mutate("/api/user");
-
       reset();
     } catch (e) {
-      console.log(e);
-      if (isAxiosError(e)) {
-        if (e.response?.status === 401) {
-          return handleAlert("error", "Nieprawidłowy email lub hasło");
-        }
+      if (isAxiosError(e) && e.response?.status === 401) {
+        handleAlert("error", `Nieprawidłowy adres email lub hasło`);
+      } else {
+        const { alertMessage } = handleApiErrors(e);
+        handleAlert(
+          "error",
+          `Wystąpił błąd podczas logowania. ${alertMessage}`
+        );
       }
-
-      handleAlert("error", "Wystąpił błąd podczas logowania");
     }
   };
 

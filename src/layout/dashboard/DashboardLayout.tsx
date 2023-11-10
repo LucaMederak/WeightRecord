@@ -15,15 +15,15 @@ import Nav from "./nav/Nav";
 import PageLoading from "@/components/pageLoading/PageLoading";
 import Alert from "@/components/alert/Alert";
 
-//queries
-import { useUser } from "@/services/useUser";
+//services
+import { getUser } from "@/services/user.service";
 
 export type DashboardView = "default" | "rolledUp";
 
 const DashboardLayout = ({ children }: IChildrenProps) => {
   const { alert, handleAlert } = useAlert();
   const router = useRouter();
-  const { user, userLoading, loggedOut } = useUser();
+  const { user, userLoading, loggedOut } = getUser();
   const [view, setView] = useState<DashboardView>("default");
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import React from "react";
-import axiosInstance from "@/utils/axiosInstance";
 import { useRouter } from "next/router";
+import { isAxiosError } from "axios";
 
 //assets
 import LogoDark from "@/assets/logo-dark.svg";
@@ -10,10 +10,10 @@ import * as Styled from "./Auth.styles";
 
 //schema
 import {
-  IRegisterSchema,
-  registerDefaultValues,
-  registerSchema,
-} from "./schema/registerSchema";
+  registerUserSchema,
+  defaultRegisterUserInputData,
+} from "@/schemas/user/register.schema";
+import { IRegisterUserInputData } from "@/interfaces/user.interfaces";
 
 //form
 import { useForm, FormProvider } from "react-hook-form";
@@ -29,15 +29,19 @@ import Image from "next/image";
 
 //context
 import { useAlert } from "@/context/Alert.context";
+//services
+import { registerUser } from "@/services/user.service";
+//utils
+import { handleApiErrors } from "@/utils/apiErrorsHandler";
 
 const RegisterPage = () => {
   const { alert, handleAlert } = useAlert();
   const router = useRouter();
 
   const methods = useForm({
-    resolver: yupResolver(registerSchema),
+    resolver: yupResolver(registerUserSchema),
     shouldUnregister: false,
-    defaultValues: registerDefaultValues,
+    defaultValues: defaultRegisterUserInputData,
     mode: "onBlur",
   });
 
@@ -52,18 +56,30 @@ const RegisterPage = () => {
     watch,
   } = methods;
 
-  const onSubmit = async (data: IRegisterSchema) => {
+  const onSubmit = async (data: IRegisterUserInputData) => {
     try {
-      const registerData = await axiosInstance.post("/api/user", data, {
-        withCredentials: true,
-      });
-
-      handleAlert("success", "Utworzono konto");
+      const newUser = await registerUser(data);
+      handleAlert(
+        "success",
+        `Utworzono konto dla ${
+          newUser.data.name + " " + newUser.data.lastName
+        }. Zaloguj się aby przejść do panelu`
+      );
       reset();
       router.push("/auth/login");
     } catch (e) {
-      console.log(e);
-      handleAlert("error", "Wystąpił błąd podczas rejestracji");
+      if (isAxiosError(e) && e.response?.status === 409) {
+        handleAlert(
+          "error",
+          `Wystąpił błąd podczas rejestracji użytkownika. Istnieje już użytkownik z takim adresem email`
+        );
+      } else {
+        const { alertMessage } = handleApiErrors(e);
+        handleAlert(
+          "error",
+          `Wystąpił błąd podczas rejestracji użytkownika. ${alertMessage}`
+        );
+      }
     }
   };
 

@@ -1,4 +1,3 @@
-import { useUser } from "@/services/useUser";
 import React from "react";
 
 //styles
@@ -9,8 +8,11 @@ import AuthOption from "./navOptions/authOption/AuthOption";
 import IconModal from "@/components/iconModal/IconModal";
 import { FaUserAlt } from "react-icons/fa";
 
+//services
+import { getUser } from "@/services/user.service";
+
 const Nav = () => {
-  const { user } = useUser();
+  const { user } = getUser();
 
   return (
     <Styled.NavWrapper>

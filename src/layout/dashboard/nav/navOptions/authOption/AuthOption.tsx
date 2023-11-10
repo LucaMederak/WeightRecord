@@ -1,33 +1,40 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { mutate } from "swr";
-import axiosInstance from "@/utils/axiosInstance";
 
 //styles
 import * as Styled from "./AuthOption.styles";
-
-//queries
-import { useUser } from "@/services/useUser";
 
 //icons
 import { FaUserAlt } from "react-icons/fa";
 import Button from "@/components/button/Button";
 
+//services
+import { getUser, logoutUser } from "@/services/user.service";
+//utils
+import { handleApiErrors } from "@/utils/apiErrorsHandler";
+
+//context
+import { useAlert } from "@/context/Alert.context";
+
 const AuthOption = () => {
-  const { user } = useUser();
+  const { alert, handleAlert } = useAlert();
+  const { user } = getUser();
 
   const [logoutLoading, setLogoutLoading] = useState<boolean>();
 
   const logout = async () => {
     setLogoutLoading(true);
     try {
-      const logout = await axiosInstance.delete("/api/sessions", {
-        withCredentials: true,
-      });
-
+      await logoutUser();
+      handleAlert("success", `Wylogowano`);
       mutate("/api/user", null);
     } catch (e) {
-      console.log(e);
+      const { alertMessage } = handleApiErrors(e);
+      handleAlert(
+        "error",
+        `Wystąpił błąd podczas wylogowania. ${alertMessage}`
+      );
       setLogoutLoading(false);
     }
   };

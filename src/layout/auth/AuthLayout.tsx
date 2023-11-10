@@ -5,9 +5,6 @@ import { AnimatePresence } from "framer-motion";
 //interfaces
 import { IChildrenProps } from "@/interfaces/children.interfaces";
 
-//queries
-import { useUser } from "@/services/useUser";
-
 //context
 import { useAlert } from "@/context/Alert.context";
 
@@ -15,10 +12,13 @@ import { useAlert } from "@/context/Alert.context";
 import Alert from "@/components/alert/Alert";
 import PageLoading from "@/components/pageLoading/PageLoading";
 
+//services
+import { getUser } from "@/services/user.service";
+
 const AuthLayout = ({ children }: IChildrenProps) => {
   const { alert, handleAlert } = useAlert();
   const router = useRouter();
-  const { user, userLoading, loggedOut } = useUser();
+  const { user, userLoading, loggedOut } = getUser();
 
   useEffect(() => {
     if (user && !loggedOut) {

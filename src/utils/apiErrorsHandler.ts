@@ -23,7 +23,9 @@ export const handleApiErrors = (error: unknown) => {
           // Obsługa błędów o statusie 404 (Not Found)
           console.log("Błąd 404:", error.response.data);
           return { alertMessage: "Nie znaleziono zasobu" };
-
+        case 409:
+          console.log("Błąd 409:", error.response.data);
+          return { alertMessage: "Konflikt - zasób już istnieje" };
         case 500:
           console.log("Błąd 500:", error.response.data);
           return {
