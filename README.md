@@ -2,6 +2,8 @@
 
 ![weight-record-measurements](./public/pomiary.png)
 
+![weight-record-client-measurements](./public/pomiary-klienta.png)
+
 ![weight-record-clients](./public/klienci.png)
 
 ![weight-record-measurement](./public/strona-pomiaru.png)
@@ -26,6 +28,8 @@ Node.js from express.js was used to build the backend of the application. [backe
 
 ## Live
 
+The frontend of the application is hosted on the Vercel platform.
+
 https://dashboard.weight-record.mederak.com
 
 ## Credentials
@@ -43,5 +47,11 @@ If you don't want to register, use this data:
 git clone https://github.com/LucaMederak/WeightRecord.git
 npm install
 # set up environment variables
+The following environment variables are used in this project:
+
+- `NEXT_PUBLIC_BACKEND_URL`: The URL to the hosted backend of the application.
+
+To configure these variables, create a `.env.local` file in the root of your project.
+
 npm run start
 ```
