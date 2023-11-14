@@ -3,21 +3,17 @@ import { useRouter } from "next/router";
 import { IMeasurementData } from "@/interfaces/measurement.interfaces";
 
 //form
-import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 //context
 import { useAlert } from "@/context/Alert.context";
 
-//styles
-import * as Styled from "./EditMeasurementForm.styles";
-
 //components
-import Button from "@/components/button/Button";
-import ReactLoading from "react-loading";
+import FormContainer from "@/components/form/container/FormContainer";
 
 //steps
-import * as Step from "../steps";
+import * as Step from "../../../../components/form/steps";
 
 //schema
 import { measurementSchema } from "@/schemas/measurement";
@@ -71,31 +67,17 @@ const EditMeasurementForm = ({
   };
 
   return (
-    <FormProvider {...methods}>
-      <Styled.FormContainer onSubmit={handleSubmit(onSubmit)}>
-        <Step.Info />
-        <Step.Basic />
-        <Step.Additional />
-        <Styled.ButtonWrapper>
-          <Button
-            size={"large"}
-            variant={isSubmitting || !isValid ? "disabled" : "primary"}
-            type="submit"
-          >
-            {isSubmitting ? (
-              <ReactLoading
-                type={"spin"}
-                color={"white"}
-                height={20}
-                width={20}
-              />
-            ) : (
-              "Edytuj pomiar"
-            )}
-          </Button>
-        </Styled.ButtonWrapper>
-      </Styled.FormContainer>
-    </FormProvider>
+    <FormContainer
+      methods={methods}
+      onSubmit={handleSubmit(onSubmit)}
+      isSubmitting={isSubmitting}
+      buttonText="Edytuj pomiar"
+      buttonVariant={isSubmitting || !isValid ? "disabled" : "primary"}
+    >
+      <Step.Info />
+      <Step.Basic />
+      <Step.Additional />
+    </FormContainer>
   );
 };
 

@@ -9,15 +9,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 //context
 import { useAlert } from "@/context/Alert.context";
 
-//styles
-import * as Styled from "./EditClientForm.styles";
-
 //components
-import Button from "@/components/button/Button";
-import ReactLoading from "react-loading";
+import FormContainer from "@/components/form/container/FormContainer";
 
 //steps
-import * as Step from "../steps";
+import * as Step from "../../../../components/form/steps";
 import { IClientData } from "@/interfaces/client.interfaces";
 
 //services
@@ -88,35 +84,21 @@ const EditClientForm = ({ client }: { client: IClientData }) => {
   };
 
   return (
-    <FormProvider {...methods}>
-      <Styled.FormContainer onSubmit={handleSubmit(onSubmit)}>
-        <Step.BasicInfo />
-        <Step.Aims />
-        <Step.Diseases />
-        <Styled.ButtonWrapper>
-          <Button
-            size={"large"}
-            variant={
-              isSubmitting || !isValid || Object.values(dirtyFields).length < 1
-                ? "disabled"
-                : "primary"
-            }
-            type="submit"
-          >
-            {isSubmitting ? (
-              <ReactLoading
-                type={"spin"}
-                color={"white"}
-                height={20}
-                width={20}
-              />
-            ) : (
-              "Edytuj klienta"
-            )}
-          </Button>
-        </Styled.ButtonWrapper>
-      </Styled.FormContainer>
-    </FormProvider>
+    <FormContainer
+      methods={methods}
+      onSubmit={handleSubmit(onSubmit)}
+      isSubmitting={isSubmitting}
+      buttonText="Edytuj klienta"
+      buttonVariant={
+        isSubmitting || !isValid || Object.values(dirtyFields).length < 1
+          ? "disabled"
+          : "primary"
+      }
+    >
+      <Step.BasicInfo />
+      <Step.Aims />
+      <Step.Diseases />
+    </FormContainer>
   );
 };
 

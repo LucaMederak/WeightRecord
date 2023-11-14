@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { handleApiErrors } from "@/utils/apiErrorsHandler";
 
 //form
-import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 //context
@@ -13,16 +13,10 @@ import { useAlert } from "@/context/Alert.context";
 import { clientSchema, defaultClientInputData } from "@/schemas/client";
 import { IClientInputData } from "@/interfaces/client.interfaces";
 
-//styles
-import * as Styled from "./NewClientForm.styles";
-
-//components
-import Button from "@/components/button/Button";
-import ReactLoading from "react-loading";
-
 //steps
-import * as Step from "../steps";
+import * as Step from "../../../components/form/steps";
 import { addClient } from "@/services/client.service";
+import FormContainer from "@/components/form/container/FormContainer";
 
 const NewClientForm = () => {
   const router = useRouter();
@@ -61,31 +55,17 @@ const NewClientForm = () => {
   };
 
   return (
-    <FormProvider {...methods}>
-      <Styled.FormContainer onSubmit={handleSubmit(onSubmit)}>
-        <Step.BasicInfo />
-        <Step.Aims />
-        <Step.Diseases />
-        <Styled.ButtonWrapper>
-          <Button
-            size={"large"}
-            variant={isSubmitting || !isValid ? "disabled" : "primary"}
-            type="submit"
-          >
-            {isSubmitting ? (
-              <ReactLoading
-                type={"spin"}
-                color={"white"}
-                height={20}
-                width={20}
-              />
-            ) : (
-              "Dodaj klienta"
-            )}
-          </Button>
-        </Styled.ButtonWrapper>
-      </Styled.FormContainer>
-    </FormProvider>
+    <FormContainer
+      methods={methods}
+      onSubmit={handleSubmit(onSubmit)}
+      isSubmitting={isSubmitting}
+      buttonText="Dodaj klienta"
+      buttonVariant={isSubmitting || !isValid ? "disabled" : "primary"}
+    >
+      <Step.BasicInfo />
+      <Step.Aims />
+      <Step.Diseases />
+    </FormContainer>
   );
 };
 
